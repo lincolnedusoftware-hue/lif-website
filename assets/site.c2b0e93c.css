@@ -619,6 +619,13 @@ a.photo{text-decoration:none}
 @media (min-width:1000px){.fw{padding-top:28px}.fw-hd{margin-bottom:18px}.fw-hd .lead{max-width:none}.fw .alt{border-top:0;padding-top:0;margin-top:6px}}
 .fgrid .ffull{grid-column:1/-1}
 @media (min-width:1000px){.fw .fq .quals{grid-template-columns:repeat(5,auto)}}
+.phi{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:var(--radius);background:var(--line)}
+.photo .phi{border-radius:inherit;height:100%}
+.phero-img .phi,.mc>.phi{aspect-ratio:4/3}
+.mc>.phi{border-radius:0}
+.moments .phi{aspect-ratio:4/5;border-radius:0}
+.moments.m3 .phi{aspect-ratio:4/3}
+.vslot .phi{aspect-ratio:16/9}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
