@@ -194,3 +194,23 @@
     addEventListener('resize', upd); upd();
   }
 })();
+
+// Photo carousels (stand-ins for the campus films): arrow buttons, swipe, and a gentle auto-advance.
+(function () {
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.carousel').forEach(function (c) {
+    var t = c.querySelector('.car-track'), timer = null;
+    function step(dir) {
+      var f = t.querySelector('figure'); if (!f) return;
+      var w = f.getBoundingClientRect().width + 12, max = t.scrollWidth - t.clientWidth - 4;
+      if (dir > 0 && t.scrollLeft >= max) t.scrollTo({ left: 0 });
+      else if (dir < 0 && t.scrollLeft <= 4) t.scrollTo({ left: t.scrollWidth });
+      else t.scrollBy({ left: dir * w });
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    c.querySelector('.car-prev').addEventListener('click', function () { stop(); step(-1); });
+    c.querySelector('.car-next').addEventListener('click', function () { stop(); step(1); });
+    ['pointerdown', 'focusin', 'wheel'].forEach(function (ev) { t.addEventListener(ev, stop, { passive: true }); });
+    if (!still) timer = setInterval(function () { if (!document.hidden) step(1); }, 5000);
+  });
+})();
