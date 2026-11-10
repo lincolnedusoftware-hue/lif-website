@@ -195,26 +195,6 @@
   }
 })();
 
-// Photo carousels (stand-ins for the campus films): arrow buttons, swipe, and a gentle auto-advance.
-(function () {
-  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll('.carousel').forEach(function (c) {
-    var t = c.querySelector('.car-track'), timer = null;
-    function step(dir) {
-      var f = t.querySelector('figure'); if (!f) return;
-      var w = f.getBoundingClientRect().width + 12, max = t.scrollWidth - t.clientWidth - 4;
-      if (dir > 0 && t.scrollLeft >= max) t.scrollTo({ left: 0 });
-      else if (dir < 0 && t.scrollLeft <= 4) t.scrollTo({ left: t.scrollWidth });
-      else t.scrollBy({ left: dir * w });
-    }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    c.querySelector('.car-prev').addEventListener('click', function () { stop(); step(-1); });
-    c.querySelector('.car-next').addEventListener('click', function () { stop(); step(1); });
-    ['pointerdown', 'focusin', 'wheel'].forEach(function (ev) { t.addEventListener(ev, stop, { passive: true }); });
-    if (!still) timer = setInterval(function () { if (!document.hidden) step(1); }, 5000);
-  });
-})();
-
 // Design layer: scroll progress, auto-scrolling card rows, spotlight cards and photo marquees.
 (function () {
   var d = document, still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -228,34 +208,6 @@
     new IntersectionObserver(function (es) { cb(es[0].isIntersecting); }, { threshold: 0.35 }).observe(el);
   }
 
-  // Card grids become swipeable rows on phones (and on desktop when marked) that move on their own
-  d.querySelectorAll('.mgrid,.people,.usps2,.regions,.route').forEach(function (r) {
-    var kids = [].slice.call(r.children); if (kids.length < 3) return;
-    r.classList.add('ar');
-    var dots = d.createElement('div'); dots.className = 'ar-dots'; dots.setAttribute('aria-hidden', 'true');
-    kids.forEach(function () { dots.appendChild(d.createElement('span')); });
-    r.parentNode.insertBefore(dots, r.nextSibling);
-    var vis = false, idle = 0, timer = null;
-    function over() { return r.scrollWidth > r.clientWidth + 8; }
-    function idx() { var x = r.scrollLeft, best = 0; kids.forEach(function (k, i) { if (Math.abs(k.offsetLeft - r.offsetLeft - x) < Math.abs(kids[best].offsetLeft - r.offsetLeft - x)) best = i; }); return best; }
-    function paint() {
-      var o = over(); dots.hidden = !o;
-      if (o) r.setAttribute('tabindex', '0'); else r.removeAttribute('tabindex');
-      var at = r.scrollLeft + r.clientWidth >= r.scrollWidth - 8 ? kids.length - 1 : idx();
-      [].forEach.call(dots.children, function (s, i) { s.classList.toggle('on', i === at); });
-    }
-    function step() {
-      if (!vis || d.hidden || Date.now() < idle || !over()) return;
-      if (r.scrollLeft + r.clientWidth >= r.scrollWidth - 8) r.scrollTo({ left: 0 });
-      else { var n = kids[Math.min(idx() + 1, kids.length - 1)]; r.scrollTo({ left: n.offsetLeft - r.offsetLeft - (parseFloat(getComputedStyle(r).paddingLeft) || 0) }); }
-    }
-    ['pointerdown', 'touchstart', 'focusin', 'wheel', 'mouseenter'].forEach(function (ev) { r.addEventListener(ev, function () { idle = Date.now() + 9000; }, { passive: true }); });
-    r.addEventListener('scroll', function () { requestAnimationFrame(paint); }, { passive: true });
-    addEventListener('resize', paint); paint();
-    seen(r, function (v) { vis = v; });
-    if (!still) timer = setInterval(step, 3800);
-  });
-
   // One card in the spotlight at a time (desktop, where the row is not scrolling)
   d.querySelectorAll('[data-spot]').forEach(function (g) {
     var kids = [].slice.call(g.children), i = 0, vis = false, hold = false;
@@ -268,10 +220,48 @@
   // Photo marquees: a pause button for anyone who wants the photos to stand still
   d.querySelectorAll('.marq').forEach(function (m) {
     seen(m, function (v) { if (v) m.querySelectorAll('img[loading]').forEach(function (i) { i.loading = 'eager'; }); });
-    var b = m.querySelector('.marq-btn'); if (!b) return;
-    b.addEventListener('click', function () {
-      var p = m.classList.toggle('paused');
-      b.setAttribute('aria-pressed', p ? 'true' : 'false'); b.textContent = p ? 'Play photos' : 'Pause photos';
+  });
+})();
+
+// Final layer: scroll-linked progress for pinned sections, the story steps and the photo faders.
+(function () {
+  var d = document, still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tr = [].slice.call(d.querySelectorAll('[data-track]')), tk = false;
+  function upd() {
+    tk = false; var vh = innerHeight;
+    tr.forEach(function (el) {
+      var r = el.getBoundingClientRect(); if (r.bottom < -vh || r.top > vh * 2) return;
+      var t = r.height > vh ? -r.top / (r.height - vh) : 0, v = (vh - r.top) / (vh + r.height);
+      el.style.setProperty('--t', Math.min(Math.max(t, 0), 1).toFixed(4));
+      el.style.setProperty('--v', Math.min(Math.max(v, 0), 1).toFixed(4));
     });
+  }
+  if (!still && tr.length) { addEventListener('scroll', function () { if (!tk) { tk = true; requestAnimationFrame(upd); } }, { passive: true }); addEventListener('resize', upd); upd(); }
+
+  // Story: the step in the middle of the screen leads, and its photo follows
+  d.querySelectorAll('[data-steps]').forEach(function (s) {
+    var steps = [].slice.call(s.querySelectorAll('.x-step')), pics = [].slice.call(s.querySelectorAll('.x-story-pics figure'));
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var k = steps.indexOf(en.target);
+        steps.forEach(function (x, i) { x.classList.toggle('on', i === k); });
+        pics.forEach(function (x, i) { x.classList.toggle('on', i === k); });
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    steps.forEach(function (x) { io.observe(x); });
+  });
+
+  // Photo faders: photos cross-fade on their own while on screen
+  d.querySelectorAll('.fader').forEach(function (f) {
+    var figs = [].slice.call(f.children), i = 0, vis = false;
+    if (figs.length < 2 || still) return;
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { vis = es[0].isIntersecting; }).observe(f); else vis = true;
+    setInterval(function () {
+      if (!vis || d.hidden) return;
+      var n = (i + 1) % figs.length, im = figs[n].querySelector('img'); if (im) im.loading = 'eager';
+      figs[i].classList.remove('on'); figs[n].classList.add('on'); i = n;
+    }, 4200);
   });
 })();
