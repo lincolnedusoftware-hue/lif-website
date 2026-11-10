@@ -136,7 +136,7 @@
       if (i < qs.length) { var f = qs[i].querySelector('input:checked') || qs[i].querySelector('input'); if (f && card.contains(d.activeElement)) f.focus(); }
     }
     function verdict(now, grades) {
-      if (now === 'a') return ['The foundation year could be your faster route', 'If AS or A Levels aren’t going the way you hoped, the foundation year takes you to Year 1 of a degree in 12 months. We’ll look at your completed qualifications together.'];
+      if (now === 'a') return ['The foundation year could be your faster route', 'If AS or A Levels aren’t going the way you hoped, the foundation year takes you to Year 1 of a degree in 14 months. We’ll look at your completed qualifications together.'];
       if (now === 'wait') return ['You can start now, while you wait', 'Your place depends on your final results, but there’s no need to wait to plan. Talk to us now and we’ll be ready when your results arrive.'];
       if (grades === 'strong') return ['You look ready for the foundation year', 'With five or more Cs at O Level (including English and Maths), or 55% or above in Matric, you meet the usual entry requirements.'];
       if (grades === 'close') return ['You may well be ready. Let’s check together', 'You’re close to the usual entry requirements. A short counselling session will tell you exactly where you stand.'];
@@ -159,8 +159,8 @@
       h += '</div>';
       var msg = 'Hi LIF, I took the readiness check on your website.';
       ['Where I am now', 'My results', 'Area of interest', 'Where I would like to study'].forEach(function (k, i) { msg += String.fromCharCode(10) + k + ': ' + a[i].l; });
-      h += '<div class="actions"><a class="btn btn-apply" href="/counselling">Book a counselling session</a></div>';
-      h += '<p class="rc-alt"><a href="https://wa.me/' + card.getAttribute('data-wa') + '?text=' + encodeURIComponent(msg) + '" rel="noopener" target="_blank">Send my answers on WhatsApp</a> &middot; <button type="button" class="rc-again">Start again</button></p>';
+      h += '<div class="actions"><a class="btn btn-wa-main" href="https://wa.me/' + card.getAttribute('data-wa') + '?text=' + encodeURIComponent(msg) + '" rel="noopener" target="_blank">' + (d.querySelector('.wa-ic') ? d.querySelector('.wa-ic').innerHTML : '') + 'Send my answers on WhatsApp</a></div>';
+      h += '<p class="rc-alt"><button type="button" class="rc-again">Start again</button></p>';
       h += '<p class="rc-fine">A guide only. Every application is assessed individually.</p>';
       res.innerHTML = h;
       res.querySelector('.rc-again').addEventListener('click', function () { card.querySelector('form').reset(); show(0); qs[0].querySelector('input').focus(); });
@@ -212,5 +212,66 @@
     c.querySelector('.car-next').addEventListener('click', function () { stop(); step(1); });
     ['pointerdown', 'focusin', 'wheel'].forEach(function (ev) { t.addEventListener(ev, stop, { passive: true }); });
     if (!still) timer = setInterval(function () { if (!document.hidden) step(1); }, 5000);
+  });
+})();
+
+// Design layer: scroll progress, auto-scrolling card rows, spotlight cards and photo marquees.
+(function () {
+  var d = document, still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bar = d.createElement('div'); bar.className = 'progress'; bar.setAttribute('aria-hidden', 'true'); d.body.appendChild(bar);
+  var tk = false;
+  function sp() { tk = false; var h = d.documentElement.scrollHeight - innerHeight; bar.style.setProperty('--sp', h > 0 ? (scrollY / h).toFixed(4) : 0); }
+  addEventListener('scroll', function () { if (!tk) { tk = true; requestAnimationFrame(sp); } }, { passive: true }); sp();
+
+  function seen(el, cb) {
+    if (!('IntersectionObserver' in window)) { cb(true); return; }
+    new IntersectionObserver(function (es) { cb(es[0].isIntersecting); }, { threshold: 0.35 }).observe(el);
+  }
+
+  // Card grids become swipeable rows on phones (and on desktop when marked) that move on their own
+  d.querySelectorAll('.mgrid,.people,.usps2,.regions,.route').forEach(function (r) {
+    var kids = [].slice.call(r.children); if (kids.length < 3) return;
+    r.classList.add('ar');
+    var dots = d.createElement('div'); dots.className = 'ar-dots'; dots.setAttribute('aria-hidden', 'true');
+    kids.forEach(function () { dots.appendChild(d.createElement('span')); });
+    r.parentNode.insertBefore(dots, r.nextSibling);
+    var vis = false, idle = 0, timer = null;
+    function over() { return r.scrollWidth > r.clientWidth + 8; }
+    function idx() { var x = r.scrollLeft, best = 0; kids.forEach(function (k, i) { if (Math.abs(k.offsetLeft - r.offsetLeft - x) < Math.abs(kids[best].offsetLeft - r.offsetLeft - x)) best = i; }); return best; }
+    function paint() {
+      var o = over(); dots.hidden = !o;
+      if (o) r.setAttribute('tabindex', '0'); else r.removeAttribute('tabindex');
+      var at = r.scrollLeft + r.clientWidth >= r.scrollWidth - 8 ? kids.length - 1 : idx();
+      [].forEach.call(dots.children, function (s, i) { s.classList.toggle('on', i === at); });
+    }
+    function step() {
+      if (!vis || d.hidden || Date.now() < idle || !over()) return;
+      if (r.scrollLeft + r.clientWidth >= r.scrollWidth - 8) r.scrollTo({ left: 0 });
+      else { var n = kids[Math.min(idx() + 1, kids.length - 1)]; r.scrollTo({ left: n.offsetLeft - r.offsetLeft - (parseFloat(getComputedStyle(r).paddingLeft) || 0) }); }
+    }
+    ['pointerdown', 'touchstart', 'focusin', 'wheel', 'mouseenter'].forEach(function (ev) { r.addEventListener(ev, function () { idle = Date.now() + 9000; }, { passive: true }); });
+    r.addEventListener('scroll', function () { requestAnimationFrame(paint); }, { passive: true });
+    addEventListener('resize', paint); paint();
+    seen(r, function (v) { vis = v; });
+    if (!still) timer = setInterval(step, 3800);
+  });
+
+  // One card in the spotlight at a time (desktop, where the row is not scrolling)
+  d.querySelectorAll('[data-spot]').forEach(function (g) {
+    var kids = [].slice.call(g.children), i = 0, vis = false, hold = false;
+    function on(k) { kids.forEach(function (c, j) { c.classList.toggle('on', j === k); }); i = k; }
+    kids.forEach(function (c, j) { c.addEventListener('mouseenter', function () { hold = true; on(j); }); c.addEventListener('mouseleave', function () { hold = false; }); });
+    seen(g, function (v) { vis = v; if (v && !still) on(i); });
+    if (!still) setInterval(function () { if (vis && !hold && !d.hidden && g.scrollWidth <= g.clientWidth + 8) on((i + 1) % kids.length); }, 2600);
+  });
+
+  // Photo marquees: a pause button for anyone who wants the photos to stand still
+  d.querySelectorAll('.marq').forEach(function (m) {
+    seen(m, function (v) { if (v) m.querySelectorAll('img[loading]').forEach(function (i) { i.loading = 'eager'; }); });
+    var b = m.querySelector('.marq-btn'); if (!b) return;
+    b.addEventListener('click', function () {
+      var p = m.classList.toggle('paused');
+      b.setAttribute('aria-pressed', p ? 'true' : 'false'); b.textContent = p ? 'Play photos' : 'Pause photos';
+    });
   });
 })();
