@@ -1061,6 +1061,9 @@ a.photo{text-decoration:none}
 .phero:not(.has-img){padding-bottom:40px}
 .legal{margin:0 auto}
 .x-mark img{max-width:calc(100% - 36px);object-fit:contain}
+/* Hero headline: two balanced lines */
+.x-hero-txt h1{font-size:clamp(2.3rem,7.4vw,5.6rem);line-height:1.02;max-width:none;text-wrap:balance}
+@media (min-width:700px){.x-h1l{display:block;white-space:nowrap}}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
