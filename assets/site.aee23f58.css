@@ -1032,6 +1032,17 @@ a.photo{text-decoration:none}
 .x-hero .btn-glass:hover{background:#fff;color:var(--navy)}
 .x-hero .x-chip{background:rgba(8,12,26,.45);border-color:rgba(255,255,255,.4)}
 .t-b img{object-position:62% 72%}
+/* Hero subline: two lines on desktop, each rising softly into place */
+.x-hero-txt .x-hero-sub{max-width:none}
+.x-ln{display:inline}
+@media (min-width:900px){.x-ln{display:block;white-space:nowrap}}
+.js .x-ln{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(14px);animation:lnIn 1s var(--ease) forwards}
+@media (max-width:899px){.js .x-ln{display:inline}}
+.js .x-ln:first-child{animation-delay:.35s}.js .x-ln:last-child{animation-delay:.6s}
+@keyframes lnIn{to{opacity:1;filter:none;transform:none}}
+.x-hero-sub em{font-style:normal;font-weight:600;background:linear-gradient(transparent 62%,rgba(246,212,140,.55) 62%) no-repeat 0 0/0% 100%;animation:hiIn 1s var(--ease) 1.4s forwards}
+@keyframes hiIn{to{background-size:100% 100%}}
+@media (prefers-reduced-motion:reduce){.js .x-ln{opacity:1;filter:none;transform:none;animation:none}.x-hero-sub em{background-size:100% 100%;animation:none}}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
