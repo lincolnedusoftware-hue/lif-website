@@ -1031,6 +1031,7 @@ a.photo{text-decoration:none}
 .x-hero .btn-glass{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.75);color:#fff;font-weight:600}
 .x-hero .btn-glass:hover{background:#fff;color:var(--navy)}
 .x-hero .x-chip{background:rgba(8,12,26,.45);border-color:rgba(255,255,255,.4)}
+.t-b img{object-position:62% 72%}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
