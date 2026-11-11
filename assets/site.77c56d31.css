@@ -1043,6 +1043,17 @@ a.photo{text-decoration:none}
 .x-hero-sub em{font-style:normal;font-weight:600;background:linear-gradient(transparent 62%,rgba(246,212,140,.55) 62%) no-repeat 0 0/0% 100%;animation:hiIn 1s var(--ease) 1.4s forwards}
 @keyframes hiIn{to{background-size:100% 100%}}
 @media (prefers-reduced-motion:reduce){.js .x-ln{opacity:1;filter:none;transform:none;animation:none}.x-hero-sub em{background-size:100% 100%;animation:none}}
+/* Mobile review fixes */
+.sheet .sheet-contact{display:grid;grid-template-columns:1fr;gap:10px;padding:16px var(--gut) 24px}
+.sheet .sheet-contact .btn{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:50px;padding:12px 20px;font-size:1rem;font-weight:600;border-bottom:0;text-align:center}
+.sheet .sheet-contact .btn-apply{color:#fff}
+.sheet .sheet-contact .btn-line{color:var(--navy);border:1.5px solid var(--navy)}
+@media (max-width:899px){.ftr-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 20px}.ftr-grid>div:first-child,.ftr-grid>div:last-child{grid-column:1/-1}}
+.ftr a{overflow-wrap:anywhere}
+.hdr .btn-apply{white-space:nowrap;flex:none}
+.logo{flex:0 1 auto;min-width:0}
+@media (max-width:380px){.logo img{width:124px}.hdr .btn-sm{padding:8px 14px;font-size:.86rem}.hdr-in{gap:10px}}
+@media (max-width:899px){.ftr{padding-bottom:96px}}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
