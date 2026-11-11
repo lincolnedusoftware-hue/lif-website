@@ -1024,6 +1024,13 @@ a.photo{text-decoration:none}
 .x-chip{margin-top:28px}
 .x-hero-txt .up:nth-child(4){animation-delay:.36s}
 @media (max-width:640px){.x-hero-pin{min-height:70svh;padding:88px 0 40px}.x-chip{margin-top:22px}}
+/* Hero legibility: darker scrim behind the text, solid white copy */
+.x-hero-media::after{background:linear-gradient(180deg,rgba(8,12,26,.55) 0%,rgba(8,12,26,.62) 35%,rgba(8,12,26,.78) 70%,rgba(8,12,26,.88) 100%)}
+.x-hero-txt p{color:#fff;font-weight:500;text-shadow:0 1px 2px rgba(0,0,0,.45),0 4px 24px rgba(0,0,0,.5)}
+.x-hero-txt h1{text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.x-hero .btn-glass{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.75);color:#fff;font-weight:600}
+.x-hero .btn-glass:hover{background:#fff;color:var(--navy)}
+.x-hero .x-chip{background:rgba(8,12,26,.45);border-color:rgba(255,255,255,.4)}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
