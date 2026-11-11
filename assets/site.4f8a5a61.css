@@ -1017,6 +1017,13 @@ a.photo{text-decoration:none}
 .people.pc .person p:last-child{font-size:.86rem!important;line-height:1.45;margin:0}
 .x-flagrow li{white-space:nowrap}
 @media (max-width:899px){.x-bento{grid-template-areas:"a a a a a a" "a a a a a a" "b b b d d d" "f f f e e e" "c c c c c c" "g g g g g g" "h h h h h h"}.x-tile-t{padding:14px}.x-tile-t h3{font-size:.98rem}.x-tile-t p{font-size:.7rem}}
+/* Hero: biggest text first, intake chip last, less height */
+.x-hero-pin{min-height:74vh;min-height:74svh;padding:96px 0 52px}
+.x-hero-txt h1{margin:0 auto 18px}
+.x-hero-txt p{margin-bottom:28px}
+.x-chip{margin-top:28px}
+.x-hero-txt .up:nth-child(4){animation-delay:.36s}
+@media (max-width:640px){.x-hero-pin{min-height:70svh;padding:88px 0 40px}.x-chip{margin-top:22px}}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
