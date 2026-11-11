@@ -1064,6 +1064,7 @@ a.photo{text-decoration:none}
 /* Hero headline: two balanced lines */
 .x-hero-txt h1{font-size:clamp(2.3rem,7.4vw,5.6rem);line-height:1.02;max-width:none;text-wrap:balance}
 @media (min-width:700px){.x-h1l{display:block;white-space:nowrap}}
+.sent .lead{margin-left:auto;margin-right:auto;max-width:34em}.sent:focus{outline:none}.sent h2{margin-bottom:12px}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
