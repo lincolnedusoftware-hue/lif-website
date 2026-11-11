@@ -5,6 +5,7 @@ ErrorDocument 404 /404.html
 
 # Hide git files (the site is deployed from GitHub)
 RedirectMatch 404 /\.git
+RedirectMatch 404 ^/vercel\.json$
 
 AddType image/avif .avif
 AddType font/woff2 .woff2

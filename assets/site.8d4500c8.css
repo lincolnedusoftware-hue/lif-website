@@ -1060,6 +1060,7 @@ a.photo{text-decoration:none}
 .phero:not(.has-img) .phero-txt>*{margin-left:0;margin-right:0}
 .phero:not(.has-img){padding-bottom:40px}
 .legal{margin:0 auto}
+.x-mark img{max-width:calc(100% - 36px);object-fit:contain}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
