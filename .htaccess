@@ -25,6 +25,8 @@ RewriteRule ^ncc-education-level-3/?$ /foundation-year [R=301,L]
 RewriteRule ^foundation-year-in-karachi/?$ /foundation-year [R=301,L]
 RewriteRule ^international-foundation-year/?$ /foundation-year [R=301,L]
 RewriteRule ^(fia-acca|acca-in-karachi|acca|acca-after-matric-pakistan|acca-exemptions-after-fia|acca-fees-in-pakistan|acca-in-pakistan|acca-scope-in-pakistan|acca-vs-ca-pakistan|best-acca-institute-in-karachi|how-long-does-acca-take|what-is-acca-fia)/?$ /blog [R=301,L]
+# Guides under internal review (user, 2026-11-11): temporary redirect until each one is approved and republished
+RewriteRule ^(foundation-year-vs-intermediate|ncc-level-3-entry-requirements|ncc-level-3-explained|ncc-level-3-vs-a-levels|ncc-level-3|what-to-study-after-ncc-level-3)/?$ /blog [R=302,L]
 RewriteRule ^about-us/?$ /about [R=301,L]
 RewriteRule ^(contact-us|contact)/?$ /apply [R=301,L]
 RewriteRule ^privacy-policy/?$ /privacy [R=301,L]
