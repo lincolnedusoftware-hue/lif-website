@@ -1085,6 +1085,17 @@ a.photo{text-decoration:none}
 .x-q-t p{margin:0;font-size:.95rem;line-height:1.4;font-weight:400;color:rgba(255,255,255,.88);min-height:2.8em}
 @media (max-width:899px){.x-q-t p{font-size:.82rem;min-height:4.2em}}
 @media (max-width:599px){.x-quad{grid-template-columns:1fr;gap:12px}.x-q{aspect-ratio:16/10}.x-q-t{padding:18px 20px}.x-q-t h3{font-size:1.3rem}.x-q-t p{font-size:.95rem;min-height:0}}
+/* People: one consistent vertical card for leadership and faculty */
+.people.pc,.people.pc.p3{display:flex!important;flex-wrap:wrap;justify-content:center;gap:16px}
+.people.pc .person{flex:0 0 calc(25% - 12px);flex-direction:column;align-items:center;text-align:center;gap:14px;padding:26px 18px 24px}
+.people.pc .pimg{width:104px;height:104px}
+.people.pc h3{font-size:1.05rem}
+.people.pc .role{margin:4px 0 8px;font-size:.85rem}
+.people.pc .person p:last-child{font-size:.9rem!important;max-width:22ch;margin:0 auto}
+@media (max-width:999px){.people.pc .person{flex-basis:calc(50% - 8px)}}
+@media (max-width:420px){.people.pc .person{padding:20px 12px}.people.pc .pimg{width:84px;height:84px}.people.pc h3{font-size:.98rem}.people.pc .person p:last-child{font-size:.84rem!important}}
+.ppl-h{text-align:center}
+@media (max-width:640px){.people.pc .person{padding:20px 10px}.people.pc h3{font-size:.9rem;white-space:nowrap}.people.pc .role{font-size:.78rem}.people.pc .pimg{width:84px;height:84px}.people.pc .person p:last-child{font-size:.82rem!important}}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
