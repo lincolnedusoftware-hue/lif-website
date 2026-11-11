@@ -1096,6 +1096,7 @@ a.photo{text-decoration:none}
 @media (max-width:420px){.people.pc .person{padding:20px 12px}.people.pc .pimg{width:84px;height:84px}.people.pc h3{font-size:.98rem}.people.pc .person p:last-child{font-size:.84rem!important}}
 .ppl-h{text-align:center}
 @media (max-width:640px){.people.pc .person{padding:20px 10px}.people.pc h3{font-size:.9rem;white-space:nowrap}.people.pc .role{font-size:.78rem}.people.pc .pimg{width:84px;height:84px}.people.pc .person p:last-child{font-size:.82rem!important}}
+.soon{text-align:center;padding:8px 0;margin:0 auto}.soon h2{font-size:1.6rem;margin-bottom:10px}.soon p{max-width:520px;margin:0 auto 22px}.soon .actions{justify-content:center}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
@@ -1105,4 +1106,3 @@ a.photo{text-decoration:none}
 [data-s="5"]{margin-top:20px !important}
 [data-s="6"]{font-size:1.3rem !important}
 [data-s="7"]{padding:40px 0 !important}
-[data-s="8"]{font-size:1.5rem !important}
