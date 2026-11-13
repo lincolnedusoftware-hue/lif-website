@@ -115,6 +115,7 @@
       var btnS = form.querySelector('[type=submit]'); btnS.disabled = true;
       fetch(url, { method: 'POST', mode: 'no-cors', body: body }).then(function () {
         form.hidden = true; var s = d.getElementById('sent'); s.hidden = false; s.focus();
+        if (window.fbq) window.fbq('track', 'Lead', { content_name: form.getAttribute('data-form') });
       }).catch(function () { window.location.href = whatsapp(); });
     });
   });
@@ -264,4 +265,26 @@
       figs[i].classList.remove('on'); figs[n].classList.add('on'); i = n;
     }, 4200);
   });
+})();
+
+// Meta Pixel (user, 2026-11-13). Loaded from this file because the CSP allows no inline scripts.
+(function () {
+  var PIXEL_ID = '1787740949492785';
+  if (window.fbq) return;
+  var n = window.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+  if (!window._fbq) window._fbq = n;
+  n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+  var t = document.createElement('script'); t.async = true; t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+  document.head.appendChild(t);
+  window.fbq('init', PIXEL_ID);
+  window.fbq('track', 'PageView');
+  var path = location.pathname.replace(/\.html$/, '').replace(/\/$/, '');
+  var views = { '/foundation-year': 'Foundation Year', '/universities': 'Universities', '/apply': 'Contact Us', '/counselling': 'Counselling' };
+  if (views[path]) window.fbq('track', 'ViewContent', { content_name: views[path] });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    var h = a.getAttribute('href');
+    if (/^https:\/\/wa\.me\//.test(h)) window.fbq('track', 'Contact', { content_name: 'WhatsApp' });
+    else if (/^tel:/.test(h)) window.fbq('track', 'Contact', { content_name: 'Call' });
+  }, true);
 })();
