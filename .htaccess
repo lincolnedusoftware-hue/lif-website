@@ -53,7 +53,7 @@ RewriteRule ^(.+)$ $1.html [L]
 </IfModule>
 
 <IfModule mod_headers.c>
-Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: https://www.facebook.com; media-src 'self'; style-src 'self'; script-src 'self' https://connect.facebook.net; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://www.facebook.com https://connect.facebook.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: https://www.facebook.com https://*.google-analytics.com https://www.googletagmanager.com; media-src 'self'; style-src 'self'; script-src 'self' https://connect.facebook.net https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://www.facebook.com https://connect.facebook.net https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
 Header always set Strict-Transport-Security "max-age=31536000"
 Header always set X-Content-Type-Options "nosniff"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"

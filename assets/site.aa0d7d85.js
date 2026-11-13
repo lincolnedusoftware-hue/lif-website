@@ -116,6 +116,7 @@
       fetch(url, { method: 'POST', mode: 'no-cors', body: body }).then(function () {
         form.hidden = true; var s = d.getElementById('sent'); s.hidden = false; s.focus();
         if (window.fbq) window.fbq('track', 'Lead', { content_name: form.getAttribute('data-form') });
+        if (window.gtag) window.gtag('event', 'generate_lead', { form_name: form.getAttribute('data-form') });
       }).catch(function () { window.location.href = whatsapp(); });
     });
   });
@@ -286,5 +287,22 @@
     var h = a.getAttribute('href');
     if (/^https:\/\/wa\.me\//.test(h)) window.fbq('track', 'Contact', { content_name: 'WhatsApp' });
     else if (/^tel:/.test(h)) window.fbq('track', 'Contact', { content_name: 'Call' });
+  }, true);
+})();
+
+// Google Analytics 4 (user, 2026-11-13). Loaded from this file because the CSP allows no inline scripts.
+(function () {
+  var GA_ID = 'G-QJ33453WKK';
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', GA_ID);
+  var t = document.createElement('script'); t.async = true; t.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+  document.head.appendChild(t);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    var h = a.getAttribute('href');
+    if (/^https:\/\/wa\.me\//.test(h)) window.gtag('event', 'whatsapp_click', { link_url: location.pathname });
+    else if (/^tel:/.test(h)) window.gtag('event', 'phone_click', { link_url: location.pathname });
   }, true);
 })();

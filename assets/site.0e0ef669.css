@@ -1128,6 +1128,7 @@ a.photo{text-decoration:none}
 .abox p{margin:0 0 4px}.abox-n{font-weight:600;color:var(--navy)}.abox-r{color:var(--muted);font-size:.9rem}
 .ghub-h{font-size:1.5rem;margin:0 0 20px;color:var(--navy)}
 .gmore{font-weight:600;color:var(--navy);font-size:.9rem}
+.ncc-ann{margin-top:8px}.ncc-ann a{color:var(--navy);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 
 /* from style attributes */
 [data-s="1"]{border:0 !important;padding:0 !important;margin:0 !important}
