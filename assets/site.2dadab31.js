@@ -156,7 +156,7 @@
       h += '<div class="rc-box"><b>Where it could take you</b>';
       if (r) {
         h += '<p class="rc-fl">' + r.flags.map(function (c) { return '<img src="/assets/flags/' + c + '.svg" width="24" height="16" alt="">'; }).join('') + esc(r.name) + '</p><p>' + esc(r.unis) + ', and more.</p>';
-      } else h += '<p>120+ universities and institutions in the UK, Australia, Canada, Malaysia, the UAE, Europe and beyond.</p>';
+      } else h += '<p>100+ universities and institutions in the UK, Australia, Canada, Malaysia, the UAE, Europe and beyond.</p>';
       h += '</div>';
       var msg = 'Hi LIF, I took the readiness check on your website.';
       ['Where I am now', 'My results', 'Area of interest', 'Where I would like to study'].forEach(function (k, i) { msg += String.fromCharCode(10) + k + ': ' + a[i].l; });
