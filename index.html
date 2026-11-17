@@ -192,18 +192,18 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stage.play .orb-z{animation:orb-z 2.72s backwards var(--d0)}
 .stage.play .orb-q{animation:orb-q 2.72s backwards var(--d0)}
 .stage.play .orb-ball img.base{animation:iris 2.72s backwards var(--d0)}
-.stage.play .ray{animation:ray 1.45s var(--spring) backwards;animation-delay:calc(var(--d0) + 8.55s + var(--i)*.18s)}
+.stage.play .ray{animation:ray 1.45s var(--spring) backwards;animation-delay:calc(var(--d0) + 12.4s + var(--i)*.18s)}
 /* Order after the ball opens: "University,", then "sooner." (white, turning red); the headline glides
    down to its place; the white wheel; the intake note; the three buttons one at a time; the remaining text */
 .stage h1 .w2{color:var(--red)}
 .stage.play h1{animation:h-drop 2.2s cubic-bezier(.45,0,.15,1) backwards calc(var(--d0) + 5.75s)}
-.stage.play h1 .w1{animation:rise .7s var(--spring) backwards calc(var(--d0) + 3s)}
-.stage.play h1 .w2{animation:rise .35s var(--spring) backwards calc(var(--d0) + 4s),to-red 1s ease backwards calc(var(--d0) + 4.55s)}
-.stage.play .chip{animation:rise 1.2s var(--spring) backwards calc(var(--d0) + 10.45s)}
-.stage.play .stage-sub{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 11.5s)}
-.stage.play .stage-copy>.lead{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 12s)}
-.stage.play .stage-copy>.lead~.lead{animation-delay:calc(var(--d0) + 12.5s)}
-.stage.play .replay{animation:fade .6s backwards calc(var(--d0) + 14.8s)}
+.stage.play h1 .w1{animation:rise .7s var(--spring) backwards calc(var(--d0) + 4.6s)}
+.stage.play h1 .w2{animation:rise .35s var(--spring) backwards calc(var(--d0) + 3s),to-red 1s ease backwards calc(var(--d0) + 3.55s)}
+.stage.play .chip{animation:rise 1.2s var(--spring) backwards calc(var(--d0) + 8.55s)}
+.stage.play .stage-sub{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 9.6s)}
+.stage.play .stage-copy>.lead{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 10.1s)}
+.stage.play .stage-copy>.lead~.lead{animation-delay:calc(var(--d0) + 10.6s)}
+.stage.play .replay{animation:fade .6s backwards calc(var(--d0) + 14.4s)}
 @keyframes orb-x{0%{transform:translateX(var(--dx));animation-timing-function:cubic-bezier(.333,.185,.667,.519)}70.6%,100%{transform:none}}
 @keyframes orb-y{
   0%{transform:translateY(calc(-100vh - var(--R)));animation-timing-function:cubic-bezier(.33,0,.67,.33)}
