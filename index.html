@@ -123,7 +123,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stage h1{color:#fff;font-size:clamp(2.3rem,4.3vw,3.9rem)}
 .stage h1 span{display:inline-block}
 .stage .eyebrow{color:rgba(255,255,255,.78)}
-.stage .lead{color:rgba(255,255,255,.94);font-size:clamp(1.02rem,1.4vw,1.25rem)}
+.stage-sub{color:#fff;font-size:clamp(1.15rem,1.75vw,1.5rem);line-height:1.22;letter-spacing:-.025em;font-weight:600;max-width:17em}
+.stage .lead{color:rgba(255,255,255,.92);font-size:clamp(.94rem,1.12vw,1.05rem);line-height:1.55}
 .chip{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:var(--red);font-size:.86rem;font-weight:500;color:#fff}
 .chip i{width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,.6);animation:pulse 2.4s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
@@ -145,14 +146,25 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ray{position:absolute;inset:0;pointer-events:none;transform-origin:100% 100%;transition:transform .5s var(--spring)}
 .ray svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transition:opacity .3s}
 .ray path{fill:#fff;stroke:#fff;stroke-width:1.4;stroke-linejoin:round;pointer-events:auto;transition:fill .3s,stroke .3s}
-.ray:hover{transform:scale(1.03)}
-.ray:hover path{fill:var(--red);stroke:var(--red)} /* same red as the ring around the photo */
-.ray-t,.ray-t b{transition:color .3s}
-.ray:hover .ray-t,.ray:hover .ray-t b{color:#fff}
+.ray:focus{outline:none}
+/* opened state: the hovered (or tapped) slice turns red and spreads over the whole wheel to show its full text */
+.full{position:absolute;inset:0;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:100% 100%;transition:opacity .4s var(--ease),transform .55s var(--spring),visibility 0s .4s}
+.full svg{transform-origin:100% 100%}
+.ray .full path{fill:var(--red);stroke:var(--red);stroke-width:2.6;pointer-events:none}
+.ray:hover,.ray:focus{z-index:2}
+.ray:hover .full,.ray:focus .full{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.ray:hover .full path,.ray:focus .full path{pointer-events:auto}
+.ray:hover .full svg,.ray:focus .full svg{transform:scale(1.08)}
+.full svg{transition:transform .55s var(--spring)}
+.full-t{--fr:calc(var(--R) + (var(--R2) - var(--R))*.56);position:absolute;right:calc(var(--fr)*.766);bottom:calc(var(--fr)*.643);transform:translate(50%,50%);width:clamp(170px,calc(var(--R2)*.5),340px);display:grid;gap:.7em;color:#fff;pointer-events:none}
+.full-t b{font-size:clamp(10px,calc(var(--R2)*.021),14px);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+.full-t span{font-family:var(--font-display);font-weight:500;font-size:clamp(13px,calc(var(--R2)*.034),21px);line-height:1.38;letter-spacing:-.012em}
 .ray-t{--f:.46;--tr:calc(var(--R) + (var(--R2) - var(--R))*var(--f));position:absolute;right:calc(var(--tr)*var(--cx));bottom:calc(var(--tr)*var(--sy));transform:translate(50%,50%);display:grid;justify-items:center;gap:.3em;text-align:center;white-space:nowrap;color:var(--text)}
-.ray:first-child .ray-t{--tr:min(calc(var(--R) + (var(--R2) - var(--R))*var(--f)),calc((var(--m) + var(--R) - var(--R2)*.075 - 26px)/.471))}
+.ray:first-child .ray-t{--tr:min(calc(var(--R) + (var(--R2) - var(--R))*var(--f)),calc((var(--m) + var(--R) - var(--R2)*.075 - 26px)/.195))}
 @supports (width:1cqw){.ray:last-child .ray-t{--tr:min(calc(var(--R) + (var(--R2) - var(--R))*var(--f)),calc(100cqh - var(--m) - var(--R) - 64px))}}
-.ray-t b{font-family:var(--font-display);font-weight:600;color:var(--ink);font-size:calc(var(--R2)*.09);line-height:.95;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.ray-t b{font-family:var(--font-display);font-weight:600;color:var(--ink);font-size:calc(var(--R2)*.075);line-height:1;letter-spacing:-.04em}
+.ray-plus{width:clamp(18px,calc(var(--R2)*.042),28px);aspect-ratio:1;border-radius:50%;background:var(--ink) linear-gradient(#fff,#fff) 50% 50%/46% 2px no-repeat;position:relative;margin-top:.15em}
+.ray-plus::after{content:"";position:absolute;left:50%;top:27%;bottom:27%;width:2px;margin-left:-1px;background:#fff}
 .ray-t span{font-size:clamp(9px,calc(var(--R2)*.024),16px);line-height:1.25;font-weight:500}
 
 .orb{--floor:calc(var(--m) + var(--R)*(1 - var(--s0)));--dx:calc(-100vw + 2*var(--m) + var(--R) + var(--R)*var(--s0) + 12px);
@@ -188,12 +200,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stage.play h1 .w1{animation:rise .7s var(--spring) backwards calc(var(--d0) + 3s)}
 .stage.play h1 .w2{animation:rise .35s var(--spring) backwards calc(var(--d0) + 4s),to-red 1s ease backwards calc(var(--d0) + 4.55s)}
 .stage.play .chip{animation:rise 1.2s var(--spring) backwards calc(var(--d0) + 10.45s)}
-.stage.play .cta-row>*{animation:rise 1.2s var(--spring) backwards calc(var(--d0) + 11.55s)}
-.stage.play .cta-row>*:nth-child(2){animation-delay:calc(var(--d0) + 12.05s)}
-.stage.play .cta-row>*:nth-child(3){animation-delay:calc(var(--d0) + 12.55s)}
-.stage.play .stage-copy>.eyebrow{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 13.15s)}
-.stage.play .stage-copy>.lead{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 13.65s)}
-.stage.play .replay{animation:fade .6s backwards calc(var(--d0) + 15.95s)}
+.stage.play .stage-sub{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 11.5s)}
+.stage.play .stage-copy>.lead{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 12s)}
+.stage.play .stage-copy>.lead~.lead{animation-delay:calc(var(--d0) + 12.5s)}
+.stage.play .replay{animation:fade .6s backwards calc(var(--d0) + 14.8s)}
 @keyframes orb-x{0%{transform:translateX(var(--dx));animation-timing-function:cubic-bezier(.333,.185,.667,.519)}70.6%,100%{transform:none}}
 @keyframes orb-y{
   0%{transform:translateY(calc(-100vh - var(--R)));animation-timing-function:cubic-bezier(.33,0,.67,.33)}
@@ -220,7 +230,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 @keyframes ray{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:none}}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes h-drop{from{transform:translateY(calc(var(--hup,112px)*-1))}to{transform:none}}
+@keyframes h-drop{from{transform:translateY(calc(var(--hup,57px)*-1))}to{transform:none}}
 @keyframes to-red{from{color:#fff}to{color:var(--red)}}
 
 .mob-intro{display:none}
@@ -238,6 +248,15 @@ button{font:inherit;color:inherit;cursor:pointer}
   .sun{--k:.264;--s0:.26;--R:calc((100vw - 2*var(--m))*var(--k));--R2:calc(100vw - 2*var(--m) - var(--R))}
   @supports (width:1cqw){.sun{--R:calc((min(100cqw,100cqh) - 2*var(--m))*var(--k));--R2:min(calc(100cqw - var(--m) - var(--R) + 36px),calc(100cqh - var(--m) - var(--R) - 6px))}}
   .rays .ray .ray-t{--f:.55}
+  .rays .ray:first-child .ray-t{--cx:1!important;--sy:.03!important} /* keep "Mission" clear of the replay button */
+  .stage-sub{font-size:1.12rem;max-width:15em}
+  /* narrow screens: the opened wedge grows, and its text sits in a wider block above the photo */
+  .ray:hover .full svg,.ray:focus .full svg{transform:scale(1.35)}
+  .full-t{right:16px;bottom:calc(var(--R) + 22px);transform:none;width:min(calc(100vw - var(--m) - var(--R) - 30px),300px)}
+  @supports (width:1cqw){.full-t{width:min(calc(100cqw - var(--m) - var(--R) - 30px),300px)}}
+  .full-t b{font-size:10.5px}
+  .full-t span{font-size:clamp(13px,3.7vw,15.5px)}
+  @supports (width:1cqw){.full{clip-path:inset(calc(var(--m) + var(--R) + var(--R2) - 100cqh) -100vw -100vh -100vw)}}
   .replay{left:10px;bottom:10px;width:36px;height:36px;background:rgba(35,48,96,.85);border:1px solid rgba(255,255,255,.55)}
   .replay:hover{background:var(--navy)}
   .mob-intro{display:block;padding:44px 0}
@@ -248,6 +267,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   @supports (height:100svh){.stage{min-height:calc(100svh - 56px)}}
   .stage-copy{gap:10px;padding-top:14px}
   .stage h1{font-size:clamp(2.1rem,10vw,2.6rem)}
+  .stage-sub{font-size:1rem}
   .stage{--hup:47px}
 }
 }
@@ -547,22 +567,16 @@ button{font:inherit;color:inherit;cursor:pointer}
 <section class="stage play" id="stage">
   <div class="stage-copy">
     <p class="chip"><i></i>January 2027 intake. Admissions open.</p>
-    <p class="eyebrow only-desk">NCC Education Level 3 International Foundation Diploma</p>
     <h1><span class="w1">University,</span> <span class="w2">sooner.</span></h1>
-    <p class="lead only-desk">A UK-regulated foundation diploma, taught in person in Karachi. Finish in 9 or 13 months, then apply for Year 1 of a bachelor's degree in Pakistan or abroad.</p>
-    <div class="cta-row">
-      <a class="btn" href="https://lincolninternationalfoundation.com/apply">Apply now</a>
-      <a class="link" href="https://lincolninternationalfoundation.com/counselling">Book <span class="only-desk">a </span>counselling<span class="only-desk"> session</span></a>
-      <a class="link" href="https://wa.me/923075435431?text=Hi%20LIF%2C%20I%27d%20like%20to%20know%20more%20about%20the%20NCC%20Level%203%20International%20Foundation%20Diploma." rel="noopener" target="_blank"><span class="only-desk">Chat on </span>WhatsApp</a>
-    </div>
+    <h2 class="stage-sub">Built to give students a clearer route to university</h2>
+    <p class="lead only-desk">Too many bright students lose time after school, unsure what comes next or which route will be accepted where. We started LIF to change that.</p>
+    <p class="lead only-desk">LIF gives students a faster, well-supported route to undergraduate study in Pakistan and abroad. Lincoln International Foundation is an NCC Education-accredited partner for its Level 3 International Foundation Diploma.</p>
   </div>
   <div class="sun-box">
     <div class="sun">
-      <ul class="rays" aria-label="The programme in numbers">
-        <li class="ray" style="--i:0"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 2.84 120.50L93.45 102.47Z"/></svg><p class="ray-t" style="--cx:0.8819;--sy:-0.4714"><b data-count="4">4</b><span>pathways</span></p></li>
-        <li class="ray" style="--i:1"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M93.00 100.22L2.39 118.24A99.3 99.3 0 0 1 7.82 63.06L93.18 98.42Z"/></svg><p class="ray-t" style="--cx:0.9952;--sy:0.0980"><b data-count="9">9</b><span>months<br>120 credits</span></p></li>
-        <li class="ray" style="--i:2"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.06 96.30L8.71 60.94A99.3 99.3 0 0 1 43.88 18.08L95.21 94.90Z"/></svg><p class="ray-t" style="--cx:0.7730;--sy:0.6344"><b data-count="13">13</b><span>months<br>180 credits</span></p></li>
-        <li class="ray" style="--i:3"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M97.12 93.62L45.79 16.80A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><p class="ray-t" style="--cx:0.2903;--sy:0.9569"><b data-count="120" data-suffix="+">120+</b><span>universities</span></p></li>
+      <ul class="rays" aria-label="Our mission and vision">
+        <li class="ray" style="--i:0" tabindex="0"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 7.82 63.06L93.18 98.42Z"/></svg><p class="ray-t" style="--cx:0.9808;--sy:-0.1951"><b>Mission</b><i class="ray-plus" aria-hidden="true"></i></p><div class="full"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><div class="full-t"><b>Our mission</b><span>To prepare students for undergraduate study through a skills-based, university-style foundation year, with guidance at every step.</span></div></div></li>
+        <li class="ray" style="--i:1" tabindex="0"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.06 96.30L8.71 60.94A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><p class="ray-t" style="--cx:0.5556;--sy:0.8315"><b>Vision</b><i class="ray-plus" aria-hidden="true"></i></p><div class="full"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><div class="full-t"><b>Our vision</b><span>To be the foremost institute that produces future leaders with a foundation in confidence, problem solving and innovation.</span></div></div></li>
       </ul>
       <div class="orb"><div class="orb-x"><div class="orb-y"><div class="orb-z"><div class="orb-q"><div class="orb-ball"><div class="orb-pics">
         <img class="base" src="assets/img/ph/ev1-5-1600.webp" srcset="assets/img/ph/ev1-5-800.webp 800w, assets/img/ph/ev1-5-1600.webp 1600w" sizes="(max-width:860px) 62vw, 620px" width="1600" height="1067" alt="LIF students working together on the atrium steps at NASTP" fetchpriority="high">
@@ -572,10 +586,10 @@ button{font:inherit;color:inherit;cursor:pointer}
   <button class="replay" id="replay" type="button" aria-label="Replay the opening animation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v5h5"/></svg></button>
 </section>
 
-<section class="mob-intro" aria-label="About the programme">
+<section class="mob-intro" aria-label="About LIF">
   <div class="wrap">
-    <p class="eyebrow">NCC Education Level 3 International Foundation Diploma</p>
-    <p class="lead">A UK-regulated foundation diploma, taught in person in Karachi. Finish in 9 or 13 months, then apply for Year 1 of a bachelor's degree in Pakistan or abroad.</p>
+    <p class="lead">Too many bright students lose time after school, unsure what comes next or which route will be accepted where. We started LIF to change that.</p>
+    <p class="lead">LIF gives students a faster, well-supported route to undergraduate study in Pakistan and abroad. Lincoln International Foundation is an NCC Education-accredited partner for its Level 3 International Foundation Diploma.</p>
   </div>
 </section>
 
