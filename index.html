@@ -271,6 +271,22 @@ button{font:inherit;color:inherit;cursor:pointer}
   .stage{--hup:47px}
 }
 }
+/* where the wheel is big enough (computers, and wide panels), a slice does not cover the other one:
+   it turns red, grows slightly and shows its full statement inside its own slice */
+@container (min-width:560px){
+  .full{transform:none;clip-path:none}
+  .full svg{display:none}
+  .ray:hover,.ray:focus{transform:scale(1.05)}
+  .ray>svg path{transition:fill .3s,stroke .3s}
+  .ray:hover>svg path,.ray:focus>svg path{fill:var(--red);stroke:var(--red)}
+  .ray>.ray-t{transition:opacity .25s}
+  .ray:hover>.ray-t,.ray:focus>.ray-t{opacity:0}
+  .full-t{--fr:calc(var(--R) + (var(--R2) - var(--R))*var(--ff));right:calc(var(--fr)*var(--fx));bottom:calc(var(--fr)*var(--fy));transform:translate(50%,50%);width:calc(var(--R2)*.46)}
+  .ray:first-child .full-t{--ff:.51;--fx:.9903;--fy:-.1392}
+  .ray:last-child .full-t{--ff:.49;--fx:.6157;--fy:.788}
+  .full-t b{font-size:clamp(10px,calc(var(--R2)*.021),14px)}
+  .full-t span{font-size:clamp(13px,calc(var(--R2)*.029),19px)}
+}
 
 /* Card gallery (highlights, societies) */
 .gal{position:relative}
