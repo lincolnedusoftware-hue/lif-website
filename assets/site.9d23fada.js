@@ -306,3 +306,11 @@
     else if (/^tel:/.test(h)) window.gtag('event', 'phone_click', { link_url: location.pathname });
   }, true);
 })();
+
+// Home hero video: stay on the poster for reduced motion or data saver
+(function () {
+  var v = document.querySelector('.x-hero-video video'); if (!v) return;
+  var c = navigator.connection, calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (calm || (c && c.saveData)) { v.removeAttribute('autoplay'); v.preload = 'none'; try { v.pause(); } catch (e) {} return; }
+  var p = v.play && v.play(); if (p && p.catch) p.catch(function () {});
+})();
