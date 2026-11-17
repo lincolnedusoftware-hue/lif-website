@@ -148,6 +148,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ray svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transition:opacity .3s}
 .ray path{fill:#fff;stroke:#fff;stroke-width:1.4;stroke-linejoin:round;pointer-events:auto;transition:fill .3s,stroke .3s}
 .ray:focus{outline:none}
+.full-t i,.full-x{display:none}
 /* opened state: the hovered (or tapped) slice turns red and spreads over the whole wheel to show its full text */
 .full{position:absolute;inset:0;opacity:0;visibility:hidden;transform:scale(.96);transform-origin:100% 100%;transition:opacity .4s var(--ease),transform .55s var(--spring),visibility 0s .4s}
 .full svg{transform-origin:100% 100%}
@@ -260,13 +261,6 @@ button{font:inherit;color:inherit;cursor:pointer}
   .rays .ray .ray-t{--f:.55}
   .rays .ray:first-child .ray-t{--cx:1!important;--sy:.03!important} /* keep "Mission" clear of the replay button */
   .stage-sub{font-size:1.12rem}
-  /* narrow screens: the opened wedge grows, and its text sits in a wider block above the photo */
-  .ray:hover .full svg,.ray:focus .full svg{transform:scale(1.35)}
-  .full-t{right:16px;bottom:calc(var(--R) + 22px);transform:none;width:min(calc(100vw - var(--m) - var(--R) - 30px),300px)}
-  @supports (width:1cqw){.full-t{width:min(calc(100cqw - var(--m) - var(--R) - 30px),300px)}}
-  .full-t b{font-size:10.5px}
-  .full-t span{font-size:clamp(13px,3.7vw,15.5px)}
-  @supports (width:1cqw){.full{clip-path:inset(calc(var(--m) + var(--R) + var(--R2) - 100cqh) -100vw -100vh -100vw)}}
   .replay{left:10px;bottom:10px;width:36px;height:36px;background:rgba(35,48,96,.85);border:1px solid rgba(255,255,255,.55)}
   .replay:hover{background:var(--navy)}
   .mob-intro{display:block;padding:44px 0}
@@ -280,6 +274,30 @@ button{font:inherit;color:inherit;cursor:pointer}
   .stage-sub{font-size:1rem}
   .stage{--hup:47px}
 }
+}
+/* Phones: tapping Mission or Vision opens it as a red quarter circle over the whole wheel.
+   The text follows the curve and keeps clear of the photo; the X, a second tap, or a tap elsewhere closes it. */
+@media (max-width:559.98px){
+  .sun{--Ro:max(var(--R2),min(270px,calc(100vw - var(--m) - var(--R) + 36px)));--pl:max(0px,calc(var(--Ro) - (100vw - var(--m) - var(--R)) + 14px))}
+  .stage.wheel-open .sun-box{z-index:5}
+  .stage-copy{transition:opacity .3s var(--ease)}
+  .stage.wheel-open .stage-copy{opacity:.3}
+  .ray path{cursor:pointer}
+  .ray .full{inset:auto 0 0 auto;width:var(--Ro);height:var(--Ro)}
+  .rays .ray .full svg{transform:none}
+  .ray:not(.open):hover .full,.ray:not(.open):focus .full{opacity:0;visibility:hidden;transform:scale(.96);transition-delay:0s,0s,.4s}
+  .ray.open{z-index:2} /* above the other slice, but the photo stays on top */
+  .ray.open .full{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  .ray.open .full path{pointer-events:auto}
+  .full-t{inset:0;right:0;bottom:0;width:auto;transform:none;display:block;box-sizing:border-box;padding:calc(var(--Ro)*.2) 14px 0 var(--pl)}
+  .full-t i{display:block;height:calc(var(--Ro)*.8)}
+  .full-t .fl{float:left;width:calc(var(--Ro)*.58 - var(--pl));shape-outside:polygon(0 0,100% 0,calc(var(--Ro)*0.5800 - var(--pl)) calc(var(--Ro)*0.0040),calc(var(--Ro)*0.5098 - var(--pl)) calc(var(--Ro)*0.0452),calc(var(--Ro)*0.4437 - var(--pl)) calc(var(--Ro)*0.0926),calc(var(--Ro)*0.3820 - var(--pl)) calc(var(--Ro)*0.1457),calc(var(--Ro)*0.3255 - var(--pl)) calc(var(--Ro)*0.2042),calc(var(--Ro)*0.2744 - var(--pl)) calc(var(--Ro)*0.2675),calc(var(--Ro)*0.2293 - var(--pl)) calc(var(--Ro)*0.3352),calc(var(--Ro)*0.1905 - var(--pl)) calc(var(--Ro)*0.4067),calc(var(--Ro)*0.1583 - var(--pl)) calc(var(--Ro)*0.4815),calc(var(--Ro)*0.1329 - var(--pl)) calc(var(--Ro)*0.5588),calc(var(--Ro)*0.1147 - var(--pl)) calc(var(--Ro)*0.6381),calc(var(--Ro)*0.1037 - var(--pl)) calc(var(--Ro)*0.7187),calc(var(--Ro)*0.1000 - var(--pl)) calc(var(--Ro)*0.8000),0 100%)}
+  .full-t .fr{float:right;width:calc(var(--Ro)*.42 - 14px);shape-outside:circle(calc(var(--R) + 16px) at calc(100% + 14px) 100%)}
+  .full-t b{display:block;font-size:10.5px;margin-bottom:.45em}
+  .full-t span{font-size:clamp(12.5px,3.5vw,15px);line-height:1.42}
+  .full-x{display:block;position:absolute;top:12px;right:12px;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.2);pointer-events:auto;cursor:pointer}
+  .full-x::before,.full-x::after{content:"";position:absolute;left:9px;right:9px;top:15px;height:2px;border-radius:2px;background:#fff;transform:rotate(45deg)}
+  .full-x::after{transform:rotate(-45deg)}
 }
 /* shorter computer screens: tighten the opening text so it still fits on one screen */
 @media (min-width:861px) and (max-height:780px){
@@ -610,8 +628,8 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div class="sun-box">
     <div class="sun">
       <ul class="rays" aria-label="Our mission and vision">
-        <li class="ray" style="--i:0" tabindex="0"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 7.82 63.06L93.18 98.42Z"/></svg><p class="ray-t" style="--cx:0.9808;--sy:-0.1951"><b>Mission</b><i class="ray-plus" aria-hidden="true"></i></p><div class="full"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><div class="full-t"><b>Our mission</b><span>To prepare students for undergraduate study through a skills-based, university-style foundation year, with guidance at every step.</span></div></div></li>
-        <li class="ray" style="--i:1" tabindex="0"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.06 96.30L8.71 60.94A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><p class="ray-t" style="--cx:0.5556;--sy:0.8315"><b>Vision</b><i class="ray-plus" aria-hidden="true"></i></p><div class="full"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><div class="full-t"><b>Our vision</b><span>To be the foremost institute that produces future leaders with a foundation in confidence, problem solving and innovation.</span></div></div></li>
+        <li class="ray" style="--i:0" tabindex="0"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 7.82 63.06L93.18 98.42Z"/></svg><p class="ray-t" style="--cx:0.9808;--sy:-0.1951"><b>Mission</b><i class="ray-plus" aria-hidden="true"></i></p><div class="full"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><div class="full-t"><i class="fl"></i><i class="fr"></i><b>Our mission</b><span>To prepare students for undergraduate study through a skills-based, university-style foundation year, with guidance at every step.</span></div><button class="full-x" type="button" aria-label="Close"></button></div></li>
+        <li class="ray" style="--i:1" tabindex="0"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.06 96.30L8.71 60.94A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><p class="ray-t" style="--cx:0.5556;--sy:0.8315"><b>Vision</b><i class="ray-plus" aria-hidden="true"></i></p><div class="full"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M94.30 104.07L28.98 169.40A99.3 99.3 0 0 1 98.85 0.71L98.85 93.10Z"/></svg><div class="full-t"><i class="fl"></i><i class="fr"></i><b>Our vision</b><span>To be the foremost institute that produces future leaders with a foundation in confidence, problem solving and innovation.</span></div><button class="full-x" type="button" aria-label="Close"></button></div></li>
       </ul>
       <div class="orb"><div class="orb-x"><div class="orb-y"><div class="orb-z"><div class="orb-q"><div class="orb-ball"><div class="orb-pics">
         <img class="base" src="assets/img/ph/ev1-5-1600.webp" srcset="assets/img/ph/ev1-5-800.webp 800w, assets/img/ph/ev1-5-1600.webp 1600w" sizes="(max-width:860px) 62vw, 620px" width="1600" height="1067" alt="LIF students working together on the atrium steps at NASTP" fetchpriority="high">
@@ -1162,6 +1180,21 @@ button{font:inherit;color:inherit;cursor:pointer}
 
   /* Unit tiles: plus button */
   $$('.plus').forEach(function(b){ b.addEventListener('click',function(){ var u=b.parentNode, o=u.classList.toggle('open'); b.setAttribute('aria-expanded',o) }) });
+
+  /* Mission and Vision on phones: tap opens one over the whole wheel; the X, a second tap, or a tap elsewhere closes it.
+     Wider screens keep their hover behaviour and are not touched by this. */
+  (function(){
+    var stage=$('#stage'), rays=$$('.ray',stage), mq=window.matchMedia?matchMedia('(max-width:559.98px)'):null;
+    function phone(){ return !!(mq&&mq.matches) }
+    function shut(){ rays.forEach(function(r){r.classList.remove('open')}); stage.classList.remove('wheel-open') }
+    function toggle(r){ var was=r.classList.contains('open'); shut(); if(!was){ r.classList.add('open'); stage.classList.add('wheel-open') } }
+    rays.forEach(function(r){
+      r.addEventListener('click',function(){ if(!phone())return; toggle(r); if(r.blur)r.blur() });
+      r.addEventListener('keydown',function(e){ if(!phone())return; if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(r)} else if(e.key==='Escape'){shut()} });
+    });
+    d.addEventListener('pointerdown',function(e){ if(stage.classList.contains('wheel-open')&&!(e.target.closest&&e.target.closest('.ray')))shut() });
+    if(mq){ var chg=function(){ if(!mq.matches)shut() }; if(mq.addEventListener)mq.addEventListener('change',chg); else if(mq.addListener)mq.addListener(chg) }
+  })();
 
   /* Galleries */
   function centre(track,el){ track.scrollTo({left:el.offsetLeft-(track.clientWidth-el.offsetWidth)/2,behavior:reduce?'auto':'smooth'}) }
