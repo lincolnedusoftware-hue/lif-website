@@ -97,9 +97,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ln-brand img{height:30px;width:auto}
 .ln-links{margin-left:auto;display:flex;gap:26px}
 .ln-links a{font-size:.8rem;color:var(--text);text-decoration:none;padding:6px 0;transition:color .2s}
-.ln-links a[aria-current="true"]{color:var(--ink)}
 .ln-links a:hover{color:var(--red)}
-.ln-links a[aria-current="true"]{font-weight:500}
 .ln-toggle{display:none;margin-left:auto;width:36px;height:36px;border:0;background:none;border-radius:50%;align-items:center;justify-content:center}
 .ln-toggle i{width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:translateY(-2px) rotate(45deg);transition:transform .3s var(--ease)}
 .ln-toggle[aria-expanded="true"] i{transform:translateY(2px) rotate(225deg)}
@@ -120,10 +118,11 @@ button{font:inherit;color:inherit;cursor:pointer}
   padding-left:max(var(--gut),calc((100vw - 1320px)/2));min-height:max(600px,calc(100vh - 56px))}
 @supports (height:100svh){.stage{min-height:max(600px,calc(100svh - 56px))}}
 .stage-copy{position:relative;z-index:3;align-self:center;display:grid;gap:20px;justify-items:start;padding:40px 0}
-.stage h1{color:#fff;font-size:clamp(2.3rem,4.3vw,3.9rem)}
+.stage{--h1:clamp(2.3rem,4.3vw,3.9rem)}
+.stage h1{color:#fff;font-size:var(--h1)}
 .stage h1 span{display:inline-block}
 .stage .eyebrow{color:rgba(255,255,255,.78)}
-.stage-sub .lif-red{color:var(--red);font-weight:700;font-size:1.3em;text-decoration:underline;text-decoration-thickness:.09em;text-underline-offset:.14em}
+.stage-sub .lif-red{color:var(--red);font-weight:600;font-size:var(--h1);line-height:1.02;letter-spacing:-.045em} /* same size and weight as "University, sooner." */
 .stage-sub{color:#fff;font-size:clamp(1.15rem,1.75vw,1.5rem);line-height:1.22;letter-spacing:-.025em;font-weight:600;max-width:17em}
 .stage .lead{color:rgba(255,255,255,.92);font-size:clamp(.94rem,1.12vw,1.05rem);line-height:1.55}
 .chip{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:var(--red);font-size:.86rem;font-weight:500;color:#fff}
@@ -245,7 +244,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 @media (max-width:860px){
   .stage{--m:14px;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(320px,1fr);padding-left:0}
   .stage-copy{grid-row:1;align-self:auto;gap:14px;padding:22px var(--gut) 6px}
-  .stage h1{font-size:clamp(2.5rem,11.5vw,3.6rem)}
+  .stage{--h1:clamp(2.5rem,11.5vw,3.6rem)}
   .stage{--hup:51px}
   .stage .btn{min-height:46px}
   .stage .link{font-size:.95rem}
@@ -274,7 +273,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   .stage{min-height:calc(100vh - 56px);grid-template-rows:auto minmax(230px,1fr)}
   @supports (height:100svh){.stage{min-height:calc(100svh - 56px)}}
   .stage-copy{gap:10px;padding-top:14px}
-  .stage h1{font-size:clamp(2.1rem,10vw,2.6rem)}
+  .stage{--h1:clamp(2.1rem,10vw,2.6rem)}
   .stage-sub{font-size:1rem}
   .stage{--hup:47px}
 }
