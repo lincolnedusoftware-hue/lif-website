@@ -117,13 +117,14 @@ button{font:inherit;color:inherit;cursor:pointer}
   display:grid;grid-template-columns:min(30vw,400px) minmax(0,1fr);column-gap:clamp(14px,2.4vw,36px);
   padding-left:max(var(--gut),calc((100vw - 1320px)/2));min-height:max(600px,calc(100vh - 56px))}
 @supports (height:100svh){.stage{min-height:max(600px,calc(100svh - 56px))}}
-.stage-copy{position:relative;z-index:3;align-self:center;display:grid;gap:20px;justify-items:start;padding:40px 0}
+.stage-copy{position:relative;z-index:3;align-self:center;display:grid;gap:20px;justify-items:start;padding:40px 0;container-type:inline-size}
 .stage{--h1:clamp(2.3rem,4.3vw,3.9rem)}
 .stage h1{color:#fff;font-size:var(--h1)}
 .stage h1 span{display:inline-block}
 .stage .eyebrow{color:rgba(255,255,255,.78)}
-.stage-sub .lif-red{color:var(--red);font-weight:600;font-size:var(--h1);line-height:1.02;letter-spacing:-.045em} /* same size and weight as "University, sooner." */
-.stage-sub{color:#fff;font-size:clamp(1.15rem,1.75vw,1.5rem);line-height:1.22;letter-spacing:-.025em;font-weight:600;max-width:17em}
+.stage-sub .lif-red{display:block;margin-bottom:.25em;color:var(--red);font-weight:600;font-size:min(var(--h1),var(--namefit,100cqi));line-height:1.02;letter-spacing:-.045em} /* same size and weight as "University, sooner.", shrunk only if "International" would not fit */
+.stage-sub{color:#fff;font-size:clamp(1.15rem,1.75vw,1.5rem);line-height:1.22;letter-spacing:-.025em;font-weight:600;max-width:none}
+.stage-sub .sub-rest{display:inline}
 .stage .lead{color:rgba(255,255,255,.92);font-size:clamp(.94rem,1.12vw,1.05rem);line-height:1.55}
 .chip{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:var(--red);font-size:.86rem;font-weight:500;color:#fff}
 .chip i{width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,.6);animation:pulse 2.4s infinite}
@@ -200,7 +201,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stage.play h1 .w1{animation:rise .7s var(--spring) backwards calc(var(--d0) + 3s)}
 .stage.play h1 .w2{will-change:transform;animation:speed-in .6s backwards calc(var(--d0) + 4s),to-white 1s ease backwards calc(var(--d0) + 4.7s)}
 .stage.play .chip{animation:rise 1.2s var(--spring) backwards calc(var(--d0) + 8.55s)}
-.stage.play .stage-sub{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 9.6s)}
+/* the full name follows "sooner."; the rest of the line keeps its place with the core text */
+.stage.play .lif-red{animation:fade 1s ease backwards calc(var(--d0) + 5.8s)}
+.stage.play .sub-rest{animation:fade 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 9.6s)}
 .stage.play .stage-copy>.lead{animation:rise 2s cubic-bezier(.4,0,.2,1) backwards calc(var(--d0) + 10.1s)}
 .stage.play .stage-copy>.lead~.lead{animation-delay:calc(var(--d0) + 10.6s)}
 .stage.play .replay{animation:fade .6s backwards calc(var(--d0) + 14.4s)}
@@ -256,7 +259,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   @supports (width:1cqw){.sun{--R:calc((min(100cqw,100cqh) - 2*var(--m))*var(--k));--R2:min(calc(100cqw - var(--m) - var(--R) + 36px),calc(100cqh - var(--m) - var(--R) - 6px))}}
   .rays .ray .ray-t{--f:.55}
   .rays .ray:first-child .ray-t{--cx:1!important;--sy:.03!important} /* keep "Mission" clear of the replay button */
-  .stage-sub{font-size:1.12rem;max-width:15em}
+  .stage-sub{font-size:1.12rem}
   /* narrow screens: the opened wedge grows, and its text sits in a wider block above the photo */
   .ray:hover .full svg,.ray:focus .full svg{transform:scale(1.35)}
   .full-t{right:16px;bottom:calc(var(--R) + 22px);transform:none;width:min(calc(100vw - var(--m) - var(--R) - 30px),300px)}
@@ -277,6 +280,15 @@ button{font:inherit;color:inherit;cursor:pointer}
   .stage-sub{font-size:1rem}
   .stage{--hup:47px}
 }
+}
+/* shorter computer screens: tighten the opening text so it still fits on one screen */
+@media (min-width:861px) and (max-height:780px){
+  .stage-copy{gap:12px;padding:20px 0}
+  .stage .lead{font-size:.92rem;line-height:1.5}
+  .stage-sub{font-size:1.1rem}
+}
+@media (max-width:860px) and (max-height:600px){
+  .stage{grid-template-rows:auto minmax(185px,1fr)}
 }
 /* where the wheel is big enough (computers, and wide panels), a slice does not cover the other one:
    it turns red, grows slightly and shows its full statement inside its own slice */
@@ -591,7 +603,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div class="stage-copy">
     <p class="chip"><i></i>January 2027 intake. Admissions open.</p>
     <h1><span class="w1">University,</span> <span class="w2">sooner.</span></h1>
-    <h2 class="stage-sub"><span class="lif-red">LIF</span> - Built to give students a clearer route to university</h2>
+    <h2 class="stage-sub"><span class="lif-red">Lincoln International Foundation</span> <span class="sub-rest">- Built to give students a clearer route to university</span></h2>
     <p class="lead only-desk">Many bright students waste time after school, uncertain of their next steps or pathways. We launched LIF to fix this.</p>
     <p class="lead only-desk">As an NCC Education-accredited partner for the Level 3 International Foundation Diploma, LIF provides a faster, supported route to undergraduate study in Pakistan and abroad.</p>
   </div>
