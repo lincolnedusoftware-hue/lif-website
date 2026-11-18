@@ -307,10 +307,16 @@
   }, true);
 })();
 
-// Home hero video: stay on the poster for reduced motion or data saver
+// Home hero video: always try to play (muted background loop). Data saver keeps the poster.
+// If the browser blocks autoplay (e.g. iPhone Low Power Mode), start on the first tap or scroll.
 (function () {
   var v = document.querySelector('.x-hero-video video'); if (!v) return;
-  var c = navigator.connection, calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (calm || (c && c.saveData)) { v.removeAttribute('autoplay'); v.preload = 'none'; try { v.pause(); } catch (e) {} return; }
-  var p = v.play && v.play(); if (p && p.catch) p.catch(function () {});
+  var c = navigator.connection;
+  if (c && c.saveData) { v.removeAttribute('autoplay'); v.preload = 'none'; try { v.pause(); } catch (e) {} return; }
+  v.muted = true; v.defaultMuted = true; v.setAttribute('muted', ''); v.playsInline = true;
+  function go() { var p = v.play && v.play(); if (p && p.catch) p.catch(function () {}); }
+  function once() { go(); ['touchstart', 'click', 'scroll', 'keydown'].forEach(function (t) { removeEventListener(t, once, true); }); }
+  go();
+  ['touchstart', 'click', 'scroll', 'keydown'].forEach(function (t) { addEventListener(t, once, { capture: true, passive: true }); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && v.paused) go(); });
 })();
