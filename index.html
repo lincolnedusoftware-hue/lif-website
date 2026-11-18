@@ -277,7 +277,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* Phones: tapping Why? or How? opens it as a red quarter circle over the whole wheel.
    The text follows the curve and keeps clear of the photo; the X, a second tap, or a tap elsewhere closes it. */
 @media (max-width:559.98px){
-  .sun{--Ro:max(var(--R2),min(270px,calc(100vw - var(--m) - var(--R) + 36px)));--pl:max(0px,calc(var(--Ro) - (100vw - var(--m) - var(--R)) + 14px))}
+  .sun{--k:.33;--s0:.208; /* phones: bigger photo; the bouncing ball keeps its size */
+       --Ro:max(var(--R2),min(270px,calc(100vw - var(--m) - var(--R) + 36px)));--pl:max(0px,calc(var(--Ro) - (100vw - var(--m) - var(--R)) + 14px))}
+  /* the photo never grows past 28% of the screen width, so the open panel always has room for its text beside it */
+  @supports (width:1cqw){.sun{--R:min(calc((min(100cqw,100cqh) - 2*var(--m))*var(--k)),calc((100vw - 2*var(--m))*.28));
+    --Ro:max(var(--R2),min(340px,max(270px,calc(100cqh + 40px)),calc(100vw - var(--m) - var(--R) + 36px)))}}
   .stage.wheel-open .sun-box{z-index:5}
   .stage-copy{transition:opacity .3s var(--ease)}
   .stage.wheel-open .stage-copy{opacity:.3}
@@ -288,12 +292,12 @@ button{font:inherit;color:inherit;cursor:pointer}
   .ray.open{z-index:2} /* above the other slice, but the photo stays on top */
   .ray.open .full{opacity:1;visibility:visible;transform:none;transition-delay:0s}
   .ray.open .full path{pointer-events:auto}
-  .full-t{inset:0;right:0;bottom:0;width:auto;transform:none;display:block;box-sizing:border-box;padding:calc(var(--Ro)*.2) 14px 0 var(--pl)}
+  .full-t{inset:0;right:0;bottom:0;width:auto;transform:none;display:block;box-sizing:border-box;padding:calc(var(--Ro)*.2) 14px 0 var(--pl);font-size:clamp(12.5px,3.5vw,15px);line-height:1.42}
   .full-t i{display:block;height:calc(var(--Ro)*.8)}
   .full-t .fl{float:left;width:calc(var(--Ro)*.58 - var(--pl));shape-outside:polygon(0 0,100% 0,calc(var(--Ro)*0.5800 - var(--pl)) calc(var(--Ro)*0.0040),calc(var(--Ro)*0.5098 - var(--pl)) calc(var(--Ro)*0.0452),calc(var(--Ro)*0.4437 - var(--pl)) calc(var(--Ro)*0.0926),calc(var(--Ro)*0.3820 - var(--pl)) calc(var(--Ro)*0.1457),calc(var(--Ro)*0.3255 - var(--pl)) calc(var(--Ro)*0.2042),calc(var(--Ro)*0.2744 - var(--pl)) calc(var(--Ro)*0.2675),calc(var(--Ro)*0.2293 - var(--pl)) calc(var(--Ro)*0.3352),calc(var(--Ro)*0.1905 - var(--pl)) calc(var(--Ro)*0.4067),calc(var(--Ro)*0.1583 - var(--pl)) calc(var(--Ro)*0.4815),calc(var(--Ro)*0.1329 - var(--pl)) calc(var(--Ro)*0.5588),calc(var(--Ro)*0.1147 - var(--pl)) calc(var(--Ro)*0.6381),calc(var(--Ro)*0.1037 - var(--pl)) calc(var(--Ro)*0.7187),calc(var(--Ro)*0.1000 - var(--pl)) calc(var(--Ro)*0.8000),0 100%)}
   .full-t .fr{float:right;width:calc(var(--Ro)*.42 - 14px);shape-outside:circle(calc(var(--R) + 16px) at calc(100% + 14px) 100%)}
   .full-t b{display:block;font-size:10.5px;margin-bottom:.45em}
-  .full-t span{font-size:clamp(12.5px,3.5vw,15px);line-height:1.42}
+  .full-t span{font-size:1em;line-height:inherit}
   .full-x{display:block;position:absolute;top:12px;right:12px;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.2);pointer-events:auto;cursor:pointer}
   .full-x::before,.full-x::after{content:"";position:absolute;left:9px;right:9px;top:15px;height:2px;border-radius:2px;background:#fff;transform:rotate(45deg)}
   .full-x::after{transform:rotate(-45deg)}
