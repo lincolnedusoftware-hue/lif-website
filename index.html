@@ -1299,7 +1299,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
   /* Highlights: dots, autoplay, play and pause */
   (function(){
-    var g=$('#hl'), track=$('.gal-track',g), items=$$('.hl',g), dots=$('.dots',g), pp=$('.pp',g), cur=0, timer=null, DUR=4600, want=!reduce, inView=false;
+    var g=$('#hl'), track=$('.gal-track',g), items=$$('.hl',g), dots=$('.dots',g), pp=$('.pp',g), cur=0, timer=null, DUR=3830, want=!reduce, inView=false;
     g.style.setProperty('--dur',DUR+'ms');
     items.forEach(function(it,i){ var b=d.createElement('button'); b.type='button'; b.className='dot'; b.setAttribute('aria-label','Highlight '+(i+1)+' of '+items.length+': '+$('h3',it).textContent); var tk=d.createElement('span'); tk.className='tk'; tk.appendChild(d.createElement('i')); b.appendChild(tk);
       b.addEventListener('click',function(){go(i,true)}); dots.appendChild(b) });
