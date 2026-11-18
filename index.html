@@ -280,26 +280,32 @@ button{font:inherit;color:inherit;cursor:pointer}
   .sun{--k:.33;--s0:.208; /* phones: bigger photo; the bouncing ball keeps its size */
        --Ro:max(var(--R2),min(270px,calc(100vw - var(--m) - var(--R) + 36px)));--pl:max(0px,calc(var(--Ro) - (100vw - var(--m) - var(--R)) + 14px))}
   /* the photo never grows past 28% of the screen width, so the open panel always has room for its text beside it */
-  @supports (width:1cqw){.sun{--R:min(calc((min(100cqw,100cqh) - 2*var(--m))*var(--k)),calc((100vw - 2*var(--m))*.28));
+  /* on short phones, where the wheel has little height, the photo also gives way so Why? and How? keep room to be tapped */
+  @supports (width:1cqw){.sun{--R:min(calc((min(100cqw,100cqh) - 2*var(--m))*var(--k)),calc((100vw - 2*var(--m))*.28),calc((100cqh - 100px)*.48));
     --Ro:max(var(--R2),min(340px,max(270px,calc(100cqh + 40px)),calc(100vw - var(--m) - var(--R) + 36px)))}}
   .stage.wheel-open .sun-box{z-index:5}
   .stage-copy{transition:opacity .3s var(--ease)}
   .stage.wheel-open .stage-copy{opacity:.3}
   .ray path{cursor:pointer}
-  .ray .full{inset:auto 0 0 auto;width:var(--Ro);height:var(--Ro)}
-  .rays .ray .full svg{transform:none}
+  /* Tap: the slice keeps its own shape, turns red and grows only as much as its statement needs.
+     The script sets the grow amount and lays the words out inside the slice; the other slice stays as it is. */
+  .ray>svg{transition:transform .5s var(--spring)}
+  .ray>svg path{transition:fill .3s,stroke .3s}
+  .ray.open{z-index:2}
+  .ray.open>svg{transform:scale(var(--sg,1.06))}
+  .ray.open>svg path{fill:var(--red);stroke:var(--red)}
+  .ray>.ray-t{transition:opacity .25s}
+  .ray.open>.ray-t{opacity:0}
+  .ray .full{inset:0;width:auto;height:auto;pointer-events:none}
+  .ray .full>svg,.ray .full-t{display:none}
   .ray:not(.open):hover .full,.ray:not(.open):focus .full{opacity:0;visibility:hidden;transform:scale(.96);transition-delay:0s,0s,.4s}
-  .ray.open{z-index:2} /* above the other slice, but the photo stays on top */
-  .ray.open .full{opacity:1;visibility:visible;transform:none;transition-delay:0s}
-  .ray.open .full path{pointer-events:auto}
-  .full-t{inset:0;right:0;bottom:0;width:auto;transform:none;display:block;box-sizing:border-box;padding:calc(var(--Ro)*.2) 14px 0 var(--pl);font-size:clamp(12.5px,3.5vw,15px);line-height:1.42}
-  .full-t i{display:block;height:calc(var(--Ro)*.8)}
-  .full-t .fl{float:left;width:calc(var(--Ro)*.58 - var(--pl));shape-outside:polygon(0 0,100% 0,calc(var(--Ro)*0.5800 - var(--pl)) calc(var(--Ro)*0.0040),calc(var(--Ro)*0.5098 - var(--pl)) calc(var(--Ro)*0.0452),calc(var(--Ro)*0.4437 - var(--pl)) calc(var(--Ro)*0.0926),calc(var(--Ro)*0.3820 - var(--pl)) calc(var(--Ro)*0.1457),calc(var(--Ro)*0.3255 - var(--pl)) calc(var(--Ro)*0.2042),calc(var(--Ro)*0.2744 - var(--pl)) calc(var(--Ro)*0.2675),calc(var(--Ro)*0.2293 - var(--pl)) calc(var(--Ro)*0.3352),calc(var(--Ro)*0.1905 - var(--pl)) calc(var(--Ro)*0.4067),calc(var(--Ro)*0.1583 - var(--pl)) calc(var(--Ro)*0.4815),calc(var(--Ro)*0.1329 - var(--pl)) calc(var(--Ro)*0.5588),calc(var(--Ro)*0.1147 - var(--pl)) calc(var(--Ro)*0.6381),calc(var(--Ro)*0.1037 - var(--pl)) calc(var(--Ro)*0.7187),calc(var(--Ro)*0.1000 - var(--pl)) calc(var(--Ro)*0.8000),0 100%)}
-  .full-t .fr{float:right;width:calc(var(--Ro)*.42 - 14px);shape-outside:circle(calc(var(--R) + 16px) at calc(100% + 14px) 100%)}
-  .full-t b{display:block;font-size:10.5px;margin-bottom:.45em}
-  .full-t span{font-size:1em;line-height:inherit}
-  .full-x{display:block;position:absolute;top:12px;right:12px;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.2);pointer-events:auto;cursor:pointer}
-  .full-x::before,.full-x::after{content:"";position:absolute;left:9px;right:9px;top:15px;height:2px;border-radius:2px;background:#fff;transform:rotate(45deg)}
+  .ray.open .full{opacity:1;visibility:visible;transform:none;transition-delay:.12s,.12s,0s}
+  .fit{position:absolute;inset:0;pointer-events:none;color:#fff}
+  .fit p{position:absolute;margin:0;white-space:nowrap;text-align:center;font-family:var(--font-display);font-weight:500;letter-spacing:-.012em}
+  .fit p.lb{font-size:10.5px;line-height:15px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+  .stage.wheel-open .replay{opacity:0;pointer-events:none}
+  .full-x{display:block;position:absolute;top:12px;right:12px;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.2);pointer-events:auto;cursor:pointer}
+  .full-x::before,.full-x::after{content:"";position:absolute;left:9px;right:9px;top:14px;height:2px;border-radius:2px;background:#fff;transform:rotate(45deg)}
   .full-x::after{transform:rotate(-45deg)}
 }
 /* shorter computer screens: tighten the opening text so it still fits on one screen */
@@ -572,7 +578,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* Floating WhatsApp */
 .fab{position:fixed;z-index:40;left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100vw - 24px);bottom:max(14px,env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:9px;height:48px;padding:0 24px 0 18px;border-radius:999px;background:#fff;color:var(--red);font-weight:600;font-size:.88rem;white-space:nowrap;text-decoration:none;border:1.5px solid var(--red);box-shadow:0 12px 28px -8px rgba(14,20,48,.55);transition:transform .25s var(--ease),opacity .3s ease,visibility 0s}
 .fab:hover{transform:scale(1.05)}
-.fab.off{opacity:0;transform:translateY(14px);visibility:hidden;pointer-events:none;transition:transform .3s var(--ease),opacity .3s ease,visibility 0s .3s}
+.fab.off,.fab.aside{opacity:0;transform:translateY(14px);visibility:hidden;pointer-events:none;transition:transform .3s var(--ease),opacity .3s ease,visibility 0s .3s}
 .fab svg{width:21px;height:21px;fill:var(--red);flex:none}
 .fab span{flex:none}
 @media (max-width:380px){.fab{font-size:.84rem;height:46px;padding:0 20px 0 15px;gap:8px}}
@@ -1203,18 +1209,86 @@ button{font:inherit;color:inherit;cursor:pointer}
     track.addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); addEventListener('load',upd); upd();
   });
 
-  /* Why? and How? on phones: tap opens one over the whole wheel; the X, a second tap, or a tap elsewhere closes it.
-     Wider screens keep their hover behaviour and are not touched by this. */
+  /* Why? and How? on phones: a tap turns that slice red and grows it just enough for its statement,
+     which is laid out line by line inside the slice's own shape. The X, a second tap, or a tap elsewhere closes it.
+     The WhatsApp pill steps aside while a slice is open. Wider screens keep their hover behaviour and are not touched by this. */
   (function(){
-    var stage=$('#stage'), rays=$$('.ray',stage), mq=window.matchMedia?matchMedia('(max-width:559.98px)'):null;
+    var stage=$('#stage'), rays=$$('.ray',stage), fab=$('#fab'), mq=window.matchMedia?matchMedia('(max-width:559.98px)'):null,
+        cv=d.createElement('canvas').getContext('2d'), RAD=Math.PI/180;
     function phone(){ return !!(mq&&mq.matches) }
-    function shut(){ rays.forEach(function(r){r.classList.remove('open')}); stage.classList.remove('wheel-open') }
-    function toggle(r){ var was=r.classList.contains('open'); shut(); if(!was){ r.classList.add('open'); stage.classList.add('wheel-open') } }
+    function shut(){ rays.forEach(function(r){ r.classList.remove('open') }); stage.classList.remove('wheel-open'); if(fab)fab.classList.remove('aside') }
+    function tw(t,font,ls){ cv.font=font; if('letterSpacing' in cv)cv.letterSpacing=ls+'px'; return cv.measureText(t).width }
+    function lay(r){
+      var k=rays.indexOf(r), a1=(k===0?-45:22.5)*RAD, a2=(k===0?22.5:90)*RAD,
+          full=$('.full',r), xb=$('.full-x',full), src=$('.full-t',full), svg=r.firstElementChild,
+          lbl=$('b',src).textContent.toUpperCase(), words=$('span',src).textContent.trim().split(/\s+/),
+          fam=getComputedStyle($('span',src)).fontFamily, rb=r.getBoundingClientRect(), sc=Math.min(rb.width,rb.height)/100,
+          cx=rb.left+(rb.width-100*sc)/2+100*sc, cy=rb.top+(rb.height-100*sc)/2+100*sc, R0=99.3*sc,
+          rin=$('.orb-ball',stage).getBoundingClientRect().width/2+9,
+          st=stage.getBoundingClientRect(), nav=$('#ln').getBoundingClientRect(),
+          /* How? sits low on the screen: if the opening screen runs past the bottom edge, the page is nudged up so the whole slice shows */
+          shift=k===0?Math.max(0,Math.min(st.bottom-innerHeight,innerHeight*.25)):0,
+          yMin=Math.max(st.top,nav.bottom+shift)+10, yMax=Math.min(innerHeight+shift,st.bottom)-12, xMin=12, M=10,
+          fs0=Math.max(12.5,Math.min(15,innerWidth*.035)), fit=$('.fit',full), s1=Math.sin(a1), c1=Math.cos(a1), s2=Math.sin(a2), c2=Math.cos(a2);
+      if(!fit){ fit=d.createElement('div'); fit.className='fit'; fit.setAttribute('aria-hidden','true'); full.insertBefore(fit,xb) }
+      svg.style.transformOrigin=(cx-rb.left)+'px '+(cy-rb.top)+'px';
+      function closeAt(Ro){ /* the X sits in the slice's outer top corner, kept on screen */
+        var rho=Math.min(Ro-30,(cx-xMin-20)/Math.cos(a2-.12)), th=a2-Math.min(.5,24/rho), x=cx-rho*Math.cos(th), y=Math.max(cy-rho*Math.sin(th),yMin+6);
+        return {x:x,y:y,r:22} }
+      function row(y,Ro,X){ /* the part of a horizontal line at height y that lies inside the slice, clear of its edges, the photo and the X */
+        var dy=cy-y, ro=Ro-12, lo=4, hi=cx-xMin;
+        if(Math.abs(dy)>=ro) return null;
+        hi=Math.min(hi,Math.sqrt(ro*ro-dy*dy));
+        if(Math.abs(dy)<rin) lo=Math.max(lo,Math.sqrt(rin*rin-dy*dy));
+        lo=Math.max(lo,(M+dy*c2)/s2);
+        if(s1>0) hi=Math.min(hi,(dy*c1-M)/s1); else if(s1<0) lo=Math.max(lo,(M-dy*c1)/(-s1));
+        if(hi-lo<=0) return null;
+        if(Math.abs(y-X.y)<X.r){ var e1=cx-X.x-X.r, e2=cx-X.x+X.r;
+          if(e2>lo&&e1<hi){ if(e1-lo>=hi-e2) hi=Math.min(hi,e1); else lo=Math.max(lo,e2) } }
+        return hi-lo>0?[cx-hi,cx-lo]:null }
+      function band(y1,y2,Ro,X){ var a=row(y1,Ro,X), b=row((y1+y2)/2,Ro,X), c=row(y2,Ro,X); if(!a||!b||!c)return null;
+        var l=Math.max(a[0],b[0],c[0]), h=Math.min(a[1],b[1],c[1]); return h-l>0?[l,h]:null }
+      function attempt(Ro,fs){
+        var font='500 '+fs+'px '+fam, lh=Math.round(fs*1.38*10)/10, ls=-.012*fs, ww=words.map(function(w){return tw(w,font,ls)}),
+            sp=tw(' ',font,ls), lw=tw(lbl,'600 10.5px '+fam,1.155)+3, X=closeAt(Ro), ok=[], y0;
+        for(y0=yMin;y0<=yMax-40;y0+=3){
+          var y=y0, b=band(y,y+15,Ro,X), out, i=0, j, cur;
+          if(!b||b[1]-b[0]<lw) continue;
+          out=[{t:lbl,lb:1,x:b[0],w:b[1]-b[0],y:y}]; y+=20;
+          while(i<words.length){
+            if(y+lh>yMax){out=null;break}
+            b=band(y,y+lh,Ro,X); if(!b){out=null;break}
+            var av=b[1]-b[0]-4; cur=ww[i]; if(cur>av){out=null;break}
+            for(j=i+1;j<words.length&&cur+sp+ww[j]<=av;j++) cur+=sp+ww[j];
+            out.push({t:words.slice(i,j).join(' '),x:b[0],w:b[1]-b[0],y:y}); y+=lh; i=j }
+          if(out) ok.push({lines:out,top:y0,bot:y}) }
+        if(!ok.length) return null;
+        /* centre the words in the room the slice gives them, so the red never looks empty on one side */
+        var mid=(ok[0].top+ok[ok.length-1].bot)/2, best=ok[0];
+        ok.forEach(function(o){ if(Math.abs((o.top+o.bot)/2-mid)<Math.abs((best.top+best.bot)/2-mid)) best=o });
+        best.fs=fs; best.lh=lh; best.X=X; return best }
+      /* grow only as much as needed at normal reading size; past the point where the slice already reaches the screen edges, growing no longer helps, so the type steps down a little instead */
+      var res=null, g, fs, gMax=Math.max(1.06,(Math.max(cx-xMin,cy-yMin)+40)/R0);
+      for(g=1.04;g<=gMax+.0001&&!res;g+=.03) res=attempt(R0*g,fs0);
+      if(res) g-=.03; else {
+        for(fs=fs0-.5;!res&&fs>=10.5;fs-=.5) res=attempt(R0*gMax,fs);
+        if(res){ fs=res.fs; for(g=1.04;g<gMax;g+=.03){ var r2=attempt(R0*g,fs); if(r2){res=r2;break} } if(g>gMax)g=gMax } else g=gMax }
+      fit.innerHTML='';
+      if(!res) return;
+      if(shift>2) window.scrollBy({top:shift,behavior:reduce?'auto':'smooth'});
+      r.style.setProperty('--sg',g.toFixed(3));
+      res.lines.forEach(function(L){ var e=d.createElement('p'); if(L.lb)e.className='lb';
+        else { e.style.fontSize=res.fs+'px'; e.style.lineHeight=res.lh+'px' }
+        e.textContent=L.t; e.style.left=(L.x-rb.left)+'px'; e.style.top=(L.y-rb.top)+'px'; e.style.width=(L.w)+'px'; fit.appendChild(e) });
+      xb.style.left=(res.X.x-rb.left-15)+'px'; xb.style.top=(res.X.y-rb.top-15)+'px'; xb.style.right='auto';
+    }
+    function toggle(r){ var was=r.classList.contains('open'); shut(); if(!was){ lay(r); r.classList.add('open'); stage.classList.add('wheel-open'); if(fab)fab.classList.add('aside') } }
     rays.forEach(function(r){
       r.addEventListener('click',function(){ if(!phone())return; toggle(r); if(r.blur)r.blur() });
       r.addEventListener('keydown',function(e){ if(!phone())return; if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(r)} else if(e.key==='Escape'){shut()} });
     });
     d.addEventListener('pointerdown',function(e){ if(stage.classList.contains('wheel-open')&&!(e.target.closest&&e.target.closest('.ray')))shut() });
+    addEventListener('resize',function(){ if(phone())rays.forEach(function(r){ if(r.classList.contains('open'))lay(r) }) });
     if(mq){ var chg=function(){ if(!mq.matches)shut() }; if(mq.addEventListener)mq.addEventListener('change',chg); else if(mq.addListener)mq.addListener(chg) }
   })();
 
