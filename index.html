@@ -1209,6 +1209,42 @@ button{font:inherit;color:inherit;cursor:pointer}
     track.addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); addEventListener('load',upd); upd();
   });
 
+  /* Phones only: How? sits in the middle of the part of its slice you can actually see
+     (above the WhatsApp pill and the screen edge), the way Why? sits in the middle of its slice. */
+  (function(){
+    var stage=$('#stage'), ray=$('.ray',stage), lab=ray&&$('.ray-t',ray), fab=$('#fab'), ball=$('.orb-ball',stage),
+        mq=window.matchMedia?matchMedia('(max-width:559.98px)'):null, RAD=Math.PI/180;
+    if(!lab||!mq) return;
+    var orig=lab.getAttribute('style')||'';   /* the label's own position, which wider screens keep */
+    function clear(){ lab.setAttribute('style',orig) }
+    function place(){
+      if(!mq.matches){ clear(); return }
+      /* measured from the layout, not the screen, so the opening animation can't throw it off */
+      var ox=-scrollX, oy=-scrollY, el=ray; while(el){ ox+=el.offsetLeft; oy+=el.offsetTop; el=el.offsetParent }
+      var rb={left:ox, top:oy, width:ray.offsetWidth, height:ray.offsetHeight}, sc=Math.min(rb.width,rb.height)/100;
+      if(!sc) return;
+      var cx=rb.left+(rb.width-100*sc)/2+100*sc, cy=rb.top+(rb.height-100*sc)/2+100*sc, R2=99.3*sc,
+          rin=ball.offsetWidth/2+8, lh=lab.offsetHeight||40, lw=lab.offsetWidth||40,
+          yMax=Math.min(innerHeight, stage.getBoundingClientRect().bottom)-8, sx=0, sy=0, n=0, x, y;
+      if(fab&&!fab.classList.contains('off')&&!fab.classList.contains('aside')) yMax=Math.min(yMax, fab.getBoundingClientRect().top-8);
+      for(y=cy-R2; y<=yMax; y+=3) for(x=cx-R2; x<=cx; x+=3){
+        if(x<8) continue;
+        var dx=cx-x, dy=cy-y, r=Math.sqrt(dx*dx+dy*dy), a=Math.atan2(dy,dx)/RAD;
+        if(r<rin||r>R2-6||a<-45||a>22.5) continue;
+        sx+=x; sy+=y; n++ }
+      if(!n){ clear(); return }
+      var px=sx/n, py=Math.min(sy/n, yMax-lh/2-2), ddx=cx-px, ddy=cy-py, d=Math.sqrt(ddx*ddx+ddy*ddy);
+      /* keep it clear of the photo and inside the screen */
+      d=Math.max(d, rin+Math.max(lw,lh)/2+4);
+      lab.style.setProperty('--tr', d+'px','important');
+      lab.style.setProperty('--cx', (ddx/Math.sqrt(ddx*ddx+ddy*ddy)).toFixed(4),'important');
+      lab.style.setProperty('--sy', (ddy/Math.sqrt(ddx*ddx+ddy*ddy)).toFixed(4),'important');
+    }
+    place(); addEventListener('load',place); addEventListener('resize',place); ray.addEventListener('animationend',place);
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(place);
+    if(mq.addEventListener) mq.addEventListener('change',place); else if(mq.addListener) mq.addListener(place);
+  })();
+
   /* Why? and How? on phones: a tap turns that slice red and grows it just enough for its statement,
      which is laid out line by line inside the slice's own shape. The X, a second tap, or a tap elsewhere closes it.
      The WhatsApp pill steps aside while a slice is open. Wider screens keep their hover behaviour and are not touched by this. */
