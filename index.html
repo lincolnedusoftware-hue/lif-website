@@ -499,7 +499,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* Faculty */
 .person{width:min(78vw,max(244px,calc((min(100vw,var(--wrap)) - 2*var(--gut) - (var(--n,3) - 1)*20px)/var(--n,3))));background:var(--mist);border-radius:var(--r);overflow:hidden;display:grid;grid-template-rows:auto 1fr}
-.person-img{aspect-ratio:4/4.3;overflow:hidden;background:#1178c9}
+.person-img{aspect-ratio:4/4.3;overflow:hidden;background:var(--navy)}
 .person-img img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;transition:transform 1s var(--spring)}
 .person:hover .person-img img{transform:scale(1.04)}
 .person-body{padding:24px 26px 30px;display:grid;gap:8px;align-content:start}
@@ -525,10 +525,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 .dark .pad{background:rgba(255,255,255,.12)}
 .dark .pad:hover{background:rgba(255,255,255,.2)}
 .dark .pad::before{border-color:#fff}
-/* Leadership and Faculty: Lincoln navy, with white cards */
-.navy{background:var(--navy)}
-.navy .person{background:#fff;color:var(--ink)}
-.navy .person h3{color:var(--ink)}
 .inc{width:min(76vw,290px);min-height:236px;background:#fff;border-radius:var(--r);padding:clamp(22px,2.6vw,30px);display:grid;gap:9px;align-content:start;transition:transform .45s var(--spring),background-color .3s,color .3s}
 .inc svg{width:32px;height:32px;stroke:var(--navy);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px;transition:stroke .3s}
 .inc h3{transition:color .3s}
@@ -962,7 +958,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   </div>
 </section>
 
-<section class="sec dark navy" id="leadership">
+<section class="sec" id="leadership">
   <div class="wrap">
     <div class="head" data-r>
       <p class="eyebrow">Leadership</p>
@@ -972,19 +968,19 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div class="gal row" data-r style="--n:4">
     <div class="gal-track" tabindex="0" aria-label="LIF leadership">
       <article class="person">
-        <div class="person-img"><img src="assets/img/people/p-haider-waheed-800.webp" width="800" height="1000" alt="Haider Waheed" loading="lazy"></div>
+        <div class="person-img"><img src="assets/img/people/p-haider-waheed-navy-800.webp" width="800" height="1000" alt="Haider Waheed" loading="lazy"></div>
         <div class="person-body"><p class="lbl">Chairman</p><h3>Haider Waheed</h3><p>Sets LIF's vision and long-term direction.</p></div>
       </article>
       <article class="person">
-        <div class="person-img"><img src="assets/img/people/p-muhammad-abdullah-800.webp" width="800" height="1000" alt="Muhammad Abdullah" loading="lazy"></div>
+        <div class="person-img"><img src="assets/img/people/p-muhammad-abdullah-navy-800.webp" width="800" height="1000" alt="Muhammad Abdullah" loading="lazy"></div>
         <div class="person-body"><p class="lbl">Project Director</p><h3>Muhammad Abdullah</h3><p>Runs LIF's projects and daily operations.</p></div>
       </article>
       <article class="person">
-        <div class="person-img"><img src="assets/img/people/p-mahnoor-moin-800.webp" width="800" height="1000" alt="Mahnoor Moin" loading="lazy"></div>
+        <div class="person-img"><img src="assets/img/people/p-mahnoor-moin-navy-800.webp" width="800" height="1000" alt="Mahnoor Moin" loading="lazy"></div>
         <div class="person-body"><p class="lbl">Head of Programs</p><h3>Mahnoor Moin</h3><p>Leads teaching quality and student progress.</p></div>
       </article>
       <article class="person">
-        <div class="person-img"><img src="assets/img/people/p-ayesha-haroon-800.webp" width="800" height="1000" alt="Ayesha Haroon" loading="lazy"></div>
+        <div class="person-img"><img src="assets/img/people/p-ayesha-haroon-navy-800.webp" width="800" height="1000" alt="Ayesha Haroon" loading="lazy"></div>
         <div class="person-body"><p class="lbl">Head of Partnerships</p><h3>Ayesha Haroon</h3><p>Builds partnerships with universities and schools.</p></div>
       </article>
     </div>
@@ -995,7 +991,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   </div>
 </section>
 
-<section class="sec dark navy" id="faculty" data-nav style="padding-top:0">
+<section class="sec" id="faculty" data-nav style="padding-top:0">
   <div class="wrap">
     <div class="head" data-r>
       <p class="eyebrow">Faculty</p>
@@ -1006,15 +1002,15 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div class="gal row" data-r style="--n:3">
     <div class="gal-track" tabindex="0" aria-label="LIF faculty">
       <article class="person">
-        <div class="person-img"><img src="assets/img/people/p-nazia-latif-800.webp" width="800" height="1000" alt="Nazia Latif" loading="lazy"></div>
+        <div class="person-img"><img src="assets/img/people/p-nazia-latif-navy-800.webp" width="800" height="1000" alt="Nazia Latif" loading="lazy"></div>
         <div class="person-body"><p class="lbl">English</p><h3>Nazia Latif</h3><p>Eight years teaching on international programmes, including NCC, University of Hertfordshire and Pearson. She has also coached PepsiCo managers to speak with confidence in public.</p></div>
       </article>
       <article class="person">
-        <div class="person-img"><img src="assets/img/people/p-azain-shaikh-800.webp" width="800" height="1000" alt="Azain Shaikh" loading="lazy"></div>
+        <div class="person-img"><img src="assets/img/people/p-azain-shaikh-navy-800.webp" width="800" height="1000" alt="Azain Shaikh" loading="lazy"></div>
         <div class="person-body"><p class="lbl">Mathematics</p><h3>Azain Shaikh</h3><p>BBA from IBA Karachi and a master's from TIAS School for Business and Society in the Netherlands. Over eight years teaching, from Cambridge O and A Levels to foundation programmes.</p></div>
       </article>
       <article class="person">
-        <div class="person-img"><img src="assets/img/people/p-farhan-ahmed-khan-800.webp" width="800" height="1000" alt="Farhan Ahmed Khan" loading="lazy"></div>
+        <div class="person-img"><img src="assets/img/people/p-farhan-ahmed-khan-navy-800.webp" width="800" height="1000" alt="Farhan Ahmed Khan" loading="lazy"></div>
         <div class="person-body"><p class="lbl">Research</p><h3>Farhan Ahmed Khan</h3><p>Studied Electrical Engineering at LUMS. Over six years in product management, AI and data platforms, and has trained more than 1,500 professionals in data management.</p></div>
       </article>
     </div>
